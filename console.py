@@ -1,23 +1,12 @@
-#!/usr/bin/python3
-""" Contains command line interpreter """
+"""A function to calculate the average"""
 
-import cmd
+def calculate_average(number_list):
+    sum_list = 0
+    for number in number_list:
+        sum_list = sum_list + number
 
-class HBNBCommand(cmd.Cmd):
-    prompt = "(hbnb)"
+    average = 0
+    average = sum_list / len(number_list)
 
-    def do_EOF (self, line):
-        """ EOF Program to exit command console """
-        return True
-
-    def do_quit(self, line):
-        """ Quit program to exit the console """
-        return True
-
-    def emptyline(self):
-        """ an empty line + enter should do noting """
-        return False
-
-
-if __name__ == '__main__':
-    HBNBCommand().cmdloop()
+   return average
+   
