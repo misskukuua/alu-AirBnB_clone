@@ -2,6 +2,8 @@
 """ Contains command line interpreter """
 
 import cmd
+from models.base_model import BaseModel
+
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb)"
@@ -18,6 +20,11 @@ class HBNBCommand(cmd.Cmd):
         """ an empty line + enter should do noting """
         return False
 
+""" creaes a BaseModel instance into JSON file 
+    creates a new class and prints its id
+"""
+    def do_create(self, line):
+        if 
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
