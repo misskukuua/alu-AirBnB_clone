@@ -3,13 +3,16 @@
 
 import cmd
 import models
-from .base_model import BaseModel
+from models.base_model import BaseModel
 
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb)"
+    """Creates hbnb as a  prompt"""
 
-    def do_EOF (self, line):
+    __classes = {"BaseModel"}
+
+    def do_EOF(self, line):
         """ EOF Program to exit command console """
         return True
 
@@ -18,22 +21,23 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def emptyline(self):
-        """ an empty line + enter should do noting """
+        """ an empty line + enter should do nothing """
         return False
 
-""" creaes a BaseModel instance into JSON filecreates a new class and prints its id """
-def do_create(self, line):
-    if len(line) == 1:
-        print('** class name missing **')
-        return
+    def do_create(self, line):
+        """ creates a BaseModel instance into JSON file-creates a new class and prints its id """
 
-    if line[0] not in line2.keys():
-        print("** class doesn't exist **")
-        return
+        if len(line) == 0:
+            print('** class name missing **')
+            return
+        argv = line.split()
+        if argv[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+            return
+        new = eval(argv[0]())
+        new = new.save
+        print(new.id)
 
-    line3 = line2[line]()
-    line3.save()
-    print(line3.id)
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
