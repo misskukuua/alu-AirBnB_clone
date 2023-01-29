@@ -2,6 +2,7 @@
 """ Contains command line interpreter """
 
 import cmd
+
 import models
 from models.base_model import BaseModel
 
@@ -36,6 +37,34 @@ class HBNBCommand(cmd.Cmd):
         new = eval(argv[0]())
         new = new.save
         print(new.id)
+
+    def do_show(self, line):
+        """Prints the string representation of an instance
+           based on the class name and id
+        """
+        argv = line.split()
+        objdict = models.storage.all()
+
+        if len(argv) == 0:
+            """print class name is name is missing If the class name is missing,"""
+            print("** class name missing **")
+            return
+
+        elif len(argv) == 1:
+            """If the id is missing, print ** instance id missing **"""
+            print("** instance id missing **")
+            return
+
+        elif argv[0] not in HBNBCommand.__classes:
+            """If the class name doesn’t exist, print ** class doesn't exist **"""
+            print("** class doesn't exist **")
+            return
+
+        if "{}.{}".format(argv[0], argv[1]) not in objdict:
+            print("** no instance found **")
+            return
+        else:
+            print(objdict["{}.{}".format(argv[0], argv[1])])
 
 
 if __name__ == '__main__':
