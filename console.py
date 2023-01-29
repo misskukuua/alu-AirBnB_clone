@@ -35,7 +35,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         new = eval(argv[0]())
-        new = new.save
+        new = new.save()
         print(new.id)
 
     def do_show(self, line):
@@ -87,7 +87,25 @@ class HBNBCommand(cmd.Cmd):
             else:
                 del des_objdict[key]
                 models.storage.save()
+    def do_all(self, line):
+        """
+        Prints all string representation of all instances
+        based or not on the class name.
+        """
+        argv = line.split()
+        if len(argv) > 0 and argv[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
 
+        else:
+            obj1 = models.storage.all()
+            objects = models.storage.all().values()
+            obj2 = []
+            for obj in objects:
+                if len(argv) > 0 and argv[0] == obj.__class__.__name__:
+                    obj2.append(obj.__str__())
+                elif len(argv) == 0:
+                    obj2.append(obj.__str__())
+            print(obj2)
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
