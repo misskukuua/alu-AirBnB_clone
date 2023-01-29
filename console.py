@@ -10,7 +10,7 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb)"
     """Creates hbnb as a  prompt"""
 
-    __classes = {"BaseModel"}
+    __classes = {"BaseModel": BaseModel}
 
     def do_EOF(self, line):
         """ EOF Program to exit command console """
@@ -26,7 +26,6 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, line):
         """ creates a BaseModel instance into JSON file-creates a new class and prints its id """
-
         if len(line) == 0:
             print('** class name missing **')
             return
