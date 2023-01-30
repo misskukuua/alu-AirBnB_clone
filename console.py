@@ -15,7 +15,6 @@ import re
 from shlex import split
 
 
-
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb)"
     """Creates hbnb as a  prompt"""
