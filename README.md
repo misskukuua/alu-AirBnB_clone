@@ -10,15 +10,15 @@ of this project.
 
 ## **_How to start/Use it:_**
 
- | Command      | Description                                                        | usage                                                                    |
-|--------------|--------------------------------------------------------------------|--------------------------------------------------------------------------|
-| ./console.py | run/start the interpreter                                          | ./console.py                                                             |
-| quit         | Exits the console                                                  | (hbnb) quit                                                              |
-| Create       | Creates instance of a give class or an object                      | (hbnb) create <class>                                                    |
-| update       |  |
-| all          | show all objects or instances of a given<br/>class                 | (hbnb) all <br/>(hbnb) <class>                                           |
-| destroy      | destroy an object or an instance of a given class                  | (hbnb) show <class> <id>                                                 |
- | show         | show the information of an object                                  | (hbnb) show <class> <id> or (hbnb) <class>.show(<id>)                    |
+ | Command      | Description | usage                                                                    |
+|--------------|--|--------------------------------------------------------------------------|
+| ./console.py | run/start the interpreter | ./console.py                                                             |
+| quit         | Exits the console | (hbnb) quit                                                              |
+| Create       | Creates instance of a give class or an object | (hbnb) create <class>                                                    |
+| update       |update ect or instance of a given class | (hbnb) update <class> <id><br/> <attribute name><br/><"attribute value"> |
+| all          | show all objects or instances of a given<br/>class | (hbnb) all <br/>(hbnb) <class>                                           |
+| destroy      | destroy an object or an instance of a given class | (hbnb) show <class> <id>                                                 |
+ | show         | show the information of an object | (hbnb) show <class> <id> or (hbnb) <class>.show(<id>)                    |
 
 Examples:
 
