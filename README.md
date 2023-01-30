@@ -10,9 +10,9 @@ of this project.
 
 ## **_How to start/Use it:_**
 
- |     |     |     |
-|-----|-----|-----|
-|     |     |     |
+ |Command|Function|example|
+|-----   |-----|-----|
+|./console.py|run/start the interpreter|./console.py|
 |     |     |     |
 |     |     |     |
 |     |     |     |
