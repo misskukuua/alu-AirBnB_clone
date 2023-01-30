@@ -10,11 +10,8 @@ of this project.
 
 ## **_How to start/Use it:_**
 
-|Command A  | u   |
+ |     |     |     |
 |-----|-----|-----|
-|     |     |     |
-|     |     |     |
-|     |     |     |
 |     |     |     |
 |     |     |     |
 |     |     |     |
