@@ -2,16 +2,32 @@
 """ Contains command line interpreter """
 
 import cmd
-
+from models import storage
 import models
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.amenity import Amenity
+from models.review import Review
+import re
+from shlex import split
+
 
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb)"
     """Creates hbnb as a  prompt"""
 
-    __classes = {"BaseModel": BaseModel}
+    __classes = {"BaseModel": BaseModel,
+                 "User": User,
+                 "State": State,
+                 "City": City,
+                 "Place": Place,
+                 "Amenity": Amenity,
+                 "Review": Review
+                 }
 
     def do_EOF(self, line):
         """ EOF Program to exit command console """
@@ -87,6 +103,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 del des_objdict[key]
                 models.storage.save()
+
     def do_all(self, line):
         """
         Prints all string representation of all instances
@@ -98,7 +115,7 @@ class HBNBCommand(cmd.Cmd):
 
         else:
             obj1 = models.storage.all()
-            objects = models.storage.all().values()
+            objects = obj1.values()
             obj2 = []
             for obj in objects:
                 if len(argv) > 0 and argv[0] == obj.__class__.__name__:
@@ -106,6 +123,44 @@ class HBNBCommand(cmd.Cmd):
                 elif len(argv) == 0:
                     obj2.append(obj.__str__())
             print(obj2)
+
+    def do_update(self, line):
+        """
+        updates an instance based on the class name and id by adding or updating attribute
+        save the change into the JSON file
+
+        Usage: update <class name> <id> <attribute name> "<attribute value>"
+        """
+        argv = line.split()
+        objdict = storage.all()
+
+        if len(argv) == 0:
+            print("** class name missing **")
+            return False
+        if argv[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+            return False
+        if len(argv) == 1:
+            print("** instance id missing **")
+            return False
+        key = "{}.{}".format(argv[0], argv[1])
+        if key not in objdict.keys():
+            print("** no instance found **")
+            return False
+        if len(argv) == 2:
+            print("** attribute name missing **")
+            return False
+        if len(argv) == 3:
+            print("** value missing **")
+            return False
+        else:
+            cast = type(eval(argv[3]))
+            arg_3 = argv[3]
+            arg_3 = arg_3.strip("'")
+            arg_3 = arg_3.strip('"')
+            setattr(objdict.get(key), argv[2], cast(arg_3))
+            objdict[key].save()
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
