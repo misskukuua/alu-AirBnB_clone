@@ -10,11 +10,11 @@ of this project.
 
 ## **_How to start/Use it:_**
 
- |Command|Function|example|
+ |Command|Description|examples/usage|
 |-----   |-----|-----|
 |./console.py|run/start the interpreter|./console.py|
-|     |     |     |
-|     |     |     |
+|quit|Exits the console|(hbnb) quit|
+|Create|Creates an istance of a give class or an object object|(hbnb) create <class>|
 |     |     |     |
 |     |     |     |
 
