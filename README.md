@@ -8,9 +8,9 @@ manage the back-end API, Front-end interfacing, a storage engine and a console.
 The Command Interpreter provides an interface for executing specific commands to manage the objects 
 of this project. 
 
-## **_How to start/Use it:_**:
+## **_How to start/Use it:_**
 
-|C    |  A  | u   |
+|Command A  | u   |
 |-----|-----|-----|
 |     |     |     |
 |     |     |     |
