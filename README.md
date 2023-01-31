@@ -18,7 +18,7 @@ of this project.
 | update       |update an object or instance of a given class | (hbnb) update <class> <id><br/><attribute name><br/><"attribute value"> |
 | all          | show all objects or instances of a given class | (hbnb) all (hbnb) <class> |
 | destroy      | destroy an object or an instance of a given class | (hbnb) show <class> <id> |
-| show         | show the information of an object | (hbnb) show <class> <id> or (hbnb) <class>.show(<id>) |
+| show         | show the information of an object | (hbnb) show <class> <id> or <br/> (hbnb) <class>.show(<id>) |
 
 Examples:
 
