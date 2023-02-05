@@ -1,164 +1,141 @@
 #!/usr/bin/python3
-""" Contains command line interpreter """
-
+""" console interpreter """
 import cmd
-from models import storage
-import models
 from models.base_model import BaseModel
+from models import storage
 from models.user import User
-from models.state import State
 from models.city import City
+from models.state import State
 from models.place import Place
-from models.amenity import Amenity
 from models.review import Review
-import re
-from shlex import split
+from models.amenity import Amenity
 
 
 class HBNBCommand(cmd.Cmd):
+    existing_classes = ['BaseModel', 'User', 'City',
+                        'State', 'Place', 'Review', 'Amenity', ' ']
     prompt = "(hbnb)"
-    """Creates hbnb as a  prompt"""
-
-    __classes = {"BaseModel": BaseModel,
-                 "User": User,
-                 "State": State,
-                 "City": City,
-                 "Place": Place,
-                 "Amenity": Amenity,
-                 "Review": Review
-                 }
-
-    def do_EOF(self, line):
-        """ EOF Program to exit command console """
-        return True
-
-    def do_quit(self, line):
-        """ Quit program to exit the console """
-        return True
+    # test = BaseModel()
+    # print(test)
 
     def emptyline(self):
-        """ an empty line + enter should do nothing """
-        return False
+        """ called when empty line
+        is entered in response """
+        pass
 
-    def do_create(self, line):
-        """ creates a BaseModel instance into JSON file-creates a new class and prints its id """
-        if len(line) == 0:
-            print('** class name missing **')
-            return
-        argv = line.split()
-        if argv[0] not in HBNBCommand.__classes:
-            print("** class doesn't exist **")
-            return
-        new = eval(argv[0]())
-        new = new.save()
-        print(new.id)
+    def do_quit(self, argv):
+        """exit - Exit Applicaiton"""
+        return True
 
-    def do_show(self, line):
-        """Prints the string representation of an instance
-           based on the class name and id
-        """
-        argv = line.split()
-        objdict = models.storage.all()
+    def do_EOF(self, argv):
+        """ end of file """
+        print("")
+        return True
 
-        if len(argv) == 0:
-            """print class name is name is missing If the class name is missing,"""
+    def do_create(self, new_class):
+        """ Creates a new instance of Basemodel
+        saves it(to the JSON file) and prints the id"""
+        if not new_class:
             print("** class name missing **")
-            return
-
-        elif len(argv) == 1:
-            """If the id is missing, print ** instance id missing **"""
-            print("** instance id missing **")
-            return
-
-        elif argv[0] not in HBNBCommand.__classes:
-            """If the class name doesn’t exist, print ** class doesn't exist **"""
-            print("** class doesn't exist **")
-            return
-
-        elif "{}.{}".format(argv[0], argv[1]) not in objdict:
-            print("** no instance found **")
-            return
         else:
-            print(objdict["{}.{}".format(argv[0], argv[1])])
-
-    def do_destroy(self, line):
-        """
-        Deletes an instance based on the class name and id
-        Save changes into a JSON file
-        """
-        argv = line.split()
-        des_objdict = models.storage.all()
-        if len(argv) == 0:
-            print("** class name missing **")
-            return
-
-        elif len(argv) == 1:
-            print("** instance id missing **")
-            return
-        else:
-            key = "{}.{}".format(argv[0], argv[1])
-            if key not in des_objdict.keys():
-                print("** no instance found **")
+            if new_class not in self.existing_classes:
+                print("** class doesn't exist **")
             else:
-                del des_objdict[key]
-                models.storage.save()
+                new_class = eval(new_class + "()")
+                new_class.save()
+                print(new_class.__dict__['id'])
 
-    def do_all(self, line):
-        """
-        Prints all string representation of all instances
-        based or not on the class name.
-        """
-        argv = line.split()
-        if len(argv) > 0 and argv[0] not in HBNBCommand.__classes:
-            print("** class doesn't exist **")
-
-        else:
-            obj1 = models.storage.all()
-            objects = obj1.values()
-            obj2 = []
-            for obj in objects:
-                if len(argv) > 0 and argv[0] == obj.__class__.__name__:
-                    obj2.append(obj.__str__())
-                elif len(argv) == 0:
-                    obj2.append(obj.__str__())
-            print(obj2)
-
-    def do_update(self, line):
-        """
-        updates an instance based on the class name and id by adding or updating attribute
-        save the change into the JSON file
-
-        Usage: update <class name> <id> <attribute name> "<attribute value>"
-        """
-        argv = line.split()
-        objdict = storage.all()
-
-        if len(argv) == 0:
+    def do_show(self, *argv):
+        """ Prints the string representation of an instance based on
+        the class name and id """
+        items = argv[0].split(" ")
+        if (len(items)) == 1 and items[0] == '':
             print("** class name missing **")
-            return False
-        if argv[0] not in HBNBCommand.__classes:
-            print("** class doesn't exist **")
-            return False
-        if len(argv) == 1:
-            print("** instance id missing **")
-            return False
-        key = "{}.{}".format(argv[0], argv[1])
-        if key not in objdict.keys():
-            print("** no instance found **")
-            return False
-        if len(argv) == 2:
-            print("** attribute name missing **")
-            return False
-        if len(argv) == 3:
-            print("** value missing **")
-            return False
         else:
-            cast = type(eval(argv[3]))
-            arg_3 = argv[3]
-            arg_3 = arg_3.strip("'")
-            arg_3 = arg_3.strip('"')
-            setattr(objdict.get(key), argv[2], cast(arg_3))
-            objdict[key].save()
+            if items[0] not in self.existing_classes:
+                print("** class doesn't exist **")
+            else:
+                if (len(items)) < 2:
+                    print("** instance id missing **")
+                else:
+                    try:
+                        class_found = storage.all()[items[0] + "." + items[1]]
+                        print(class_found)
+                    except KeyError:
+                        print("** no instance found **")
+
+    def do_destroy(self, *argv):
+        """Deletes an instance based on the class name and id
+        (saves the changes into the json file) """
+
+        items = argv[0].split(" ")
+        if (len(items)) == 1 and items[0] == '':
+            print("** class name missing **")
+        else:
+            if items[0] not in self.existing_classes:
+                print("** class doesn't exist **")
+            else:
+                if (len(items)) < 2:
+                    print("** instance id missing **")
+                else:
+                    try:
+                        del storage.all()[items[0] + "." + items[1]]
+                        storage.save()
+                    except KeyError:
+                        print("** no instance found **")
+
+    def do_all(self, class_type):
+        """ prints all string representation of all instances based
+        or not on the class name """
+        all_objects = storage.all()
+        temp_dict = []
+
+        if not class_type:
+            for key, value in all_objects.items():
+                temp_dict.append(str(value))
+            print(temp_dict)
+        else:
+            if class_type not in self.existing_classes:
+                print("** class doesn't exist **")
+            else:
+                for key, value in enumerate(all_objects):
+                    out = all_objects[value]
+                    if class_type == out.__class__.__name__:
+                        temp_dict.append(str(out))
+                print(temp_dict)
+
+    def do_update(self, *argv):
+        """ updates an instance based on the class\
+         name and id by adding or updating
+        attribute ( save the change into the json file)"""
+        items = argv[0].split(" ")
+
+        if (len(items)) == 1 and items[0] == '':
+            print("** class name missing **")
+        else:
+            if items[0] not in self.existing_classes:
+                print("** class doesn't exist **")
+            else:
+                if (len(items)) < 2:
+                    print("** instance id missing **")
+                else:
+                    try:
+                        temp_dict = storage.all()[items[0] + "." + items[1]]
+                        if (len(items)) < 3:
+                            print("** attribute name missing **")
+                        else:
+                            if(len(items)) == 3:
+                                print("** value missing **")
+                            elif (len(items)) == 4:
+                                # get the attribute specified and update it
+                                if type(items[3]) in [str, float, int]:
+                                    # set attr build in function
+                                    txt = items[3]
+                                    temp_dict.__dict__[items[2]] = txt[1:-1]
+                                    temp_dict.save()
+
+                    except KeyError:
+                        print("** no instance found **")
 
 
 if __name__ == '__main__':
