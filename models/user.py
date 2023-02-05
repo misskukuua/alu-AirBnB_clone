@@ -3,7 +3,7 @@
 from models.base_model import BaseModel
 
 
-class City(BaseModel):
+class User(BaseModel):
     """Represent a user class
     """
 
