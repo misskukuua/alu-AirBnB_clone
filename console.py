@@ -45,11 +45,11 @@ class HBNBCommand(cmd.Cmd):
         if len(line) == 0:
             print('** class name missing **')
             return
-        argv = line.split()
-        if argv[0] not in HBNBCommand.__classes:
+        split_line = line.split()
+        if split_line[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
             return
-        create = eval(argv[0]())
+        create = eval(split_line[0]())
         create = create.save()
         print(create.id)
 
