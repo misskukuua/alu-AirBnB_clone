@@ -8,6 +8,7 @@ from models.user import User
 
 from models.base_model import BaseModel
 
+
 class TestUser(unittest.TestCase):
     """Test user class."""
 
@@ -58,6 +59,7 @@ class TestUser(unittest.TestCase):
         self.assertEqual(our_user.last_name, "")
         our_user.last_name = "Bar"
         self.assertEqual(our_user.last_name, "Bar")
+
 
 if __name__ == "__main__":
     unittest.main()
