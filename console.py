@@ -49,7 +49,7 @@ class HBNBCommand(cmd.Cmd):
        if split_line[0] not in HBNBCommand.__classes:
            print("** class doesn't exist **")
            return
-       split_line = eval(split_line[0])
+       split_line = eval(split_line[0]())
        split_line = split_line.save()
        print(split_line.id)
 
