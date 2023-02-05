@@ -32,6 +32,9 @@ class BaseModel:
         models.storage.save()
 
     def to_dict(self):
+        """method to create dict"""
+        first_dict = self.__dict__
+
         """method to create dict
         Return the dictionary of the BaseModel instance.
         """
@@ -40,6 +43,7 @@ class BaseModel:
         first_dict["updated_at"] = self.updated_at.isoformat()
         first_dict["__class__"] = self.__class__.__name__
         return first_dict
+
 
     def __str__(self):
         """str should print class name, id, dict"""
