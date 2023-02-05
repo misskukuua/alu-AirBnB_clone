@@ -2,7 +2,7 @@
 """ console interpreter """
 import cmd
 from models.base_model import BaseModel
-from models.__init__ import storage
+from models import storage
 from models.user import User
 from models.city import City
 from models.state import State
