@@ -40,7 +40,7 @@ class HBNBCommand(cmd.Cmd):
         """ an empty line + enter should do nothing """
         return False
 
-    def do_create(self, line):
+    def do_create(line):
         """ creates a BaseModel instance into JSON file-creates a new class and prints its id """
         if len(line) == 0:
             print('** class name missing **')
