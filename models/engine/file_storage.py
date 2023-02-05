@@ -1,51 +1,42 @@
 #!/usr/bin/python3
-"""
-store by serialization and deserialization 
-"""
-
 import json
-from models.user import User
-from models.city import City
-from models.amenity import Amenity
-from models.state import State
-from models.place import Place
-from models.review import Review
+from os import path
 
 
 class FileStorage:
-    """ A class that serializes instances to Json file
-    and deserializes Json file back to instances"""
+    """ file storage class"""
 
-    __file_path = 'file.json'
+    __file_path = "file.json"
     __objects = {}
 
     def all(self):
-        """returns dict _objects"""
+        """ returns : dictionary """
         return self.__objects
 
     def new(self, obj):
-        """
-        sets in objects the obj with key 
-        """
-        key = obj.__class__.__name__ + '.' + obj.id
-        self.__objects[key] = obj
+        """ set object with key """
+        self.__objects[obj.__class__.__name__ + '.' + obj.id] = obj
 
     def save(self):
-        """serializes objects to a Json file"""
-        with open(self.__file_path, mode='w') as file:
-            obj_dict = {}
-            for k, val in self.__objects.items():
-                obj_dict[k] = val.to_dict()
-            json.dump(obj_dict, file)
+        """ serializes to json file """
+        temp = {}
+        for key in self.__objects:
+            temp[key] = self.__objects[key].to_dict()
+        with open(self.__file_path, "w+", encoding='utf-8') as out_file:
+            json.dump(temp, out_file)
 
     def reload(self):
-        """deserializes the Json file  back to objects"""
-        try:
-            with open(self.__file_path, mode='r') as file:
-                obj_dict = json.load(file)
-                for key in obj_dict.keys():
-                    obj_dict2 = obj_dict[key]
-                    self.__objects[key] = eval(
-                        obj_dict2['__class__'])(**obj_dict2)
-        except FileNotFoundError:
-            pass
+        """ deserializes json to file """
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.city import City
+        from models.state import State
+        from models.place import Place
+        from models.review import Review
+        from models.amenity import Amenity
+        if path.exists(self.__file_path):
+            with open(self.__file_path, "r", encoding='utf-8') as in_file:
+                dataset = json.load(in_file)
+                for data in dataset.values():
+                    name_of_class = data['__class__']
+                    self.new(eval(name_of_class + "(**" + str(data) + ")"))
