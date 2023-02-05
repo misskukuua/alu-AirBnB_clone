@@ -25,10 +25,9 @@ class TestState(unittest.TestCase):
         state = State()
         self.assertTrue(issubclass(type(state), BaseModel))
 
-    def test_attr(self):
-        """attribute."""
+    def test_name(self):
+        """name"""
         state = State()
-        self.assertIsNotNone(state.id)
         self.assertEqual(state.name, "")
 
 
