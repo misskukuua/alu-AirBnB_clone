@@ -37,10 +37,13 @@ class BaseModel:
         """method to create dict
         Return the dictionary of the BaseModel instance.
         """
+
         first_dict = self.__dict__.copy()
-        first_dict["created_at"] = self.created_at.isoformat()
-        first_dict["updated_at"] = self.updated_at.isoformat()
         first_dict["__class__"] = self.__class__.__name__
+        for key, value in self.__dict__.items():
+            if key in ("created_at", "updated_at"):
+                value = self.__dict__[key].isoformat()
+                first_dict[key] = value
         return first_dict
 
     def __str__(self):
