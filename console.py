@@ -94,7 +94,7 @@ class HBNBCommand(cmd.Cmd):
         if (len(items)) == 1 and items[0] == '':
             print("** class name missing **")
         else:
-            if items[0] not in self.existing_classes:
+            if items[0] not in self.__classes:
                 print("** class doesn't exist **")
             else:
                 if (len(items)) < 2:
