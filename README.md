@@ -29,6 +29,7 @@ Documented commands (type help <topic>):
 EOF  help  quit
 (hbnb) 
 $
+
 $ cat test_help
 help
 $
