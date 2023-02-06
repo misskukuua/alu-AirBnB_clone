@@ -24,12 +24,8 @@ of this project.
 ~$ ./console.py
 (hbnb) help
 
-`Documented commands (type help <topic>):`
-========================================
 EOF  create  help  quit
 
-Undocumented commands:
-======================
 all  destroy  show  update
 
 (hbnb) help quit
