@@ -21,17 +21,7 @@ of this project.
 | show         | show the information of an object | (hbnb) show <class> <id> or <br/> (hbnb) <class>.show(<id>) |
 
 ## **Examples:**
-~$ ./console.py
-(hbnb) help
 
-EOF  create  help  quit
-
-all  destroy  show  update
-
-(hbnb) help quit
-Quit command to exit the program
-(hbnb) quit
-~$
 
 ## Authors
 Princess Ankiss Asare <p.asare@alustudent.com></br>
