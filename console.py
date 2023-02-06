@@ -12,7 +12,7 @@ from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
 import re
-from shlex import split
+import shlex
 
 
 class HBNBCommand(cmd.Cmd):
@@ -86,32 +86,23 @@ class HBNBCommand(cmd.Cmd):
         else:
             print(objdict["{}.{}".format(show[0], show[1])])
 
-    def do_destroy(self, line):
-        """
-       Deletes an instance based on the class name and id
-       Save changes into a JSON file
-       """
-        destroy = line.split()
-        des_objdict = models.storage.all()
-        if len(destroy) == 0:
+    def do_destroy(self, inp):
+        inp = shlex.split(inp)
+        if not inp:
             print("** class name missing **")
-            return
-
-        destroy = destroy[0]
-        if destroy not in HBNBCommand.__classes:
+        elif inp[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-            return
-
-        elif len(destroy) == 1:
+        elif len(inp) == 1:
             print("** instance id missing **")
-            return
         else:
-            key = "{}.{}".format(destroy[0], destroy[1])
-            if key not in des_objdict.keys():
-                print("** no instance found **")
-            else:
-                del des_objdict[key]
-                models.storage.save()
+            models.storage.reload()
+            all_objects = models.storage.all()
+            for key, value in all_objects.items():
+                if value.id == inp[1] and value.__class__.__name__ == inp[0]:
+                    del(all_objects[key])
+                    models.storage.save()
+                    return
+            print("** no instance found **")
 
     def do_all(self, line):
         """
