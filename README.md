@@ -21,26 +21,21 @@ of this project.
 | show         | show the information of an object | (hbnb) show <class> <id> or <br/> (hbnb) <class>.show(<id>) |
 
 ## **Examples:**
-$ echo "help" | ./console.py
-(hbnb)
+~$ ./console.py
+(hbnb) help
 
 Documented commands (type help <topic>):
 ========================================
-EOF  help  quit
-(hbnb) 
-$
+EOF  create  help  quit
 
-$ cat test_help
-help
-$
-$ cat test_help | ./console.py
-(hbnb)
+Undocumented commands:
+======================
+all  destroy  show  update
 
-Documented commands (type help <topic>):
-========================================
-EOF  help  quit
-(hbnb) 
-$
+(hbnb) help quit
+Quit command to exit the program
+(hbnb) quit
+~$
 
 ## Authors
 Princess Ankiss Asare <p.asare@alustudent.com>
