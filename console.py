@@ -86,19 +86,32 @@ class HBNBCommand(cmd.Cmd):
         else:
             print(objdict["{}.{}".format(show[0], show[1])])
 
-    def do_destroy(self, *argv):
-        """Deletes an instance based on the class name and id
-        (saves the changes into the json file) """
-
-        items = argv[0].split(" ")
-        if (len(items)) == 1 and items[0] == '':
+    def do_destroy(self, line):
+        """
+       Deletes an instance based on the class name and id
+       Save changes into a JSON file
+       """
+        destroy = line.split()
+        des_objdict = models.storage.all()
+        if len(destroy) == 0:
             print("** class name missing **")
+            return
+
+        destroy = destroy[0]
+        if destroy not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+            return
+
+        elif len(destroy) == 1:
+            print("** instance id missing **")
+            return
         else:
-            if items[0] not in self.__classes:
-                print("** class doesn't exist **")
+            key = "{}.{}".format(destroy[0], destroy[1])
+            if key not in des_objdict.keys():
+                print("** no instance found **")
             else:
-                if (len(items)) < 2:
-                    print("** instance id missing **")
+                del des_objdict[key]
+                models.storage.save()
 
     def do_all(self, line):
         """
