@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-store by serialization and deserialization 
+storage by serialization and deserialization model
 """
 
 import json
@@ -14,8 +14,8 @@ from models.review import Review
 
 
 class FileStorage:
-    """ A class that serializes instances to Json file
-    and deserializes Json file back to instances"""
+    """class that serializes instances to Json file
+    and deserializes Json file to instances"""
 
     __file_path = 'file.json'
     __objects = {}
@@ -26,13 +26,13 @@ class FileStorage:
 
     def new(self, obj):
         """
-        sets in objects the obj with key 
+        sets in  __objects the obj with key(<obj class name>.id)
         """
-        key = obj.__class__.__name__ + '.' + obj.id
-        self.__objects[key] = obj
+        key = obj.__class__.__name__, + '.', obj.id
+        self.__objects["{}.{}".format(key)] = obj
 
     def save(self):
-        """serializes objects to a Json file"""
+        """serializes __objects to Json file"""
         with open(self.__file_path, mode='w') as file:
             obj_dict = {}
             for k, val in self.__objects.items():
@@ -40,13 +40,12 @@ class FileStorage:
             json.dump(obj_dict, file)
 
     def reload(self):
-        """deserializes the Json file  back to objects"""
+        """deserializes the Json file to _objects"""
         try:
             with open(self.__file_path, mode='r') as file:
                 obj_dict = json.load(file)
                 for key in obj_dict.keys():
                     obj_dict2 = obj_dict[key]
-                    self.__objects[key] = eval(
-                        obj_dict2['__class__'])(**obj_dict2)
+                    self.__objects[key] = (eval(obj_dict2['__class__'])(**obj_dict2))
         except FileNotFoundError:
             pass
