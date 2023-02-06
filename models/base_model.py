@@ -20,7 +20,7 @@ class BaseModel:
             models.storage.new(self)
         else:
             for key, val in kwargs.items():
-                if key == 'created_at' or key == 'updated_at':
+                if key == self.created_at or key == self.updated_at:
                     tform = "%Y-%m-%dT %H:%M:%S.%f"
                     val = datetime.strptime(kwargs[key], tform)
                 if key != '__class__':
