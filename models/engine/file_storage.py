@@ -46,6 +46,7 @@ class FileStorage:
                 obj_dict = json.load(file)
                 for key in obj_dict.keys():
                     obj_dict2 = obj_dict[key]
-                    self.__objects[key] = eval(obj_dict2['__class__'])(**obj_dict2)
+                    self.__objects[key] = eval(obj_dict2['__class__'])(
+                        **obj_dict2)
         except FileNotFoundError:
             pass

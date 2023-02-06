@@ -63,7 +63,7 @@ class HBNBCommand(cmd.Cmd):
 
         if len(show) == 0:
             """print class name is name is missing If 
-            the class name is missing,
+             the class name is missing,
             """
             print("** class name missing **")
             return
