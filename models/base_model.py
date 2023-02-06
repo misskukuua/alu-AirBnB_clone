@@ -32,19 +32,12 @@ class BaseModel:
         models.storage.save()
 
     def to_dict(self):
-        """method to create dict"""
-
-        """method to create dict
-        Return the dictionary of the BaseModel instance.
-        """
-
-        first_dict = self.__dict__.copy()
-        first_dict["__class__"] = self.__class__.__name__
-        for key, value in self.__dict__.items():
-            if key in ("created_at", "updated_at"):
-                value = self.__dict__[key].isoformat()
-                first_dict[key] = value
-        return first_dict
+        """return dictionary"""
+        dict_example = self.__dict__.copy()
+        dict_example['__class__'] = self.__class__.__name__
+        dict_example['created_at'] = dict_example['created_at'].isoformat()
+        dict_example['updated_at'] = dict_example['updated_at'].isoformat()
+        return dict_example
 
     def __str__(self):
         """str should print class name, id, dict"""
