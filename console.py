@@ -41,7 +41,9 @@ class HBNBCommand(cmd.Cmd):
         return False
 
     def do_create(self, line):
-        """ creates a BaseModel instance into JSON file-creates a new class and prints its id """
+        """ creates a BaseModel instance into JSON file-creates a
+         new class and prints its id
+        """
         if not line:
             print("** class name missing **")
         else:
@@ -60,7 +62,9 @@ class HBNBCommand(cmd.Cmd):
         objdict = models.storage.all()
 
         if len(show) == 0:
-            """print class name is name is missing If the class name is missing,"""
+            """print class name is name is missing If 
+            the class name is missing,
+            """
             print("** class name missing **")
             return
 
@@ -70,7 +74,9 @@ class HBNBCommand(cmd.Cmd):
             return
 
         elif show[0] not in HBNBCommand.__classes:
-            """If the class name doesn’t exist, print ** class doesn't exist **"""
+            """If the class name doesn’t exist,
+             print ** class doesn't exist **
+            """
             print("** class doesn't exist **")
             return
 
@@ -124,10 +130,12 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, line):
         """
-       updates an instance based on the class name and id by adding or updating attribute
+       updates an instance based on the class name and id
+       by adding or updating attribute
        save the change into the JSON file
 
-       Usage: update <class name> <id> <attribute name> "<attribute value>"
+       Usage: update <class name> <id>
+       <attribute name> "<attribute value>"
        """
         update = line.split()
         objdict = storage.all()
