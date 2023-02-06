@@ -103,7 +103,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             key = "{}.{}".format(destroy[0], destroy[1])
             if key not in des_objdict.keys():
-                print("** no instance found **")
+                print("** class doesn't exist **")
             else:
                 del des_objdict[key]
                 models.storage.save()
