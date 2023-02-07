@@ -3,7 +3,7 @@ import os
 import unittest
 from os import path
 
-import models
+from models import storage
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 import json
@@ -49,7 +49,7 @@ class TestCaseFileStorage(unittest.TestCase):
 
     def test_new(self):
         model = BaseModel()
-        models.storage.new(model)
+        storage.new(model)
         self.assertNotEqual(FileStorage._FileStorage__objects, {})
         obj = (model.__class__.__name__ + '.' +
                model.id)
@@ -66,11 +66,11 @@ class TestCaseFileStorage(unittest.TestCase):
         self.assertEqual(path.exists(self.dir_path), True)
 
     def test_reload_no_file(self):
-        self.assertRaises(FileNotFoundError, models.storage.reload())
+        self.assertRaises(FileNotFoundError, storage.reload())
 
     def test_reload_with_arg(self):
         with self.assertRaises(TypeError):
-            models.storage.reload(None)
+            storage.reload(None)
 
     # def test_reload(self):
     #     model = FileStorage()
