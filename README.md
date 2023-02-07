@@ -21,14 +21,26 @@ of this project.
 | show         | show the information of an object | (hbnb) show <class> <id> or <br/> (hbnb) <class>.show(<id>) |
 
 ## **Examples:**
+$ echo "help" | ./console.py
+(hbnb)
 
-### Command to run the console
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+(hbnb) 
+$
+$ cat test_help
+help
+$
+$ cat test_help | ./console.py
+(hbnb)
 
-![Screenshot 2023-02-05 162038](https://user-images.githubusercontent.com/106475425/217101151-000ad7d1-d968-4297-8a3d-e7871777c400.png)
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+(hbnb) 
+$
 
-### Command to show BaseModel
-
-![Screenshot 2023-02-05 162144](https://user-images.githubusercontent.com/106475425/217101168-a0494bf1-7a4a-4374-8840-99e4e48117c4.png)
-
-
-![Screenshot 2023-02-05 162209](https://user-images.githubusercontent.com/106475425/217101190-f0e49164-4571-4724-8289-6277d04a4919.png)
+## Authors
+Princess Ankiss Asare <p.asare@alustudent.com>
+Felista Kiriinya <f.kiriinya@alustudent.com>
