@@ -42,5 +42,5 @@ class TestCaseFileStorage(unittest.TestCase):
 
     def test_reload(self):
         """test reload"""
-        self.our_model .reload()
-        self.assertIsInstance(self.our_model .all(), type({}))
+        self.our_model.reload()
+        self.assertIsInstance(self.our_model.all(), type({}))
