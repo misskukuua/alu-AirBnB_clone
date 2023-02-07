@@ -13,9 +13,10 @@ from models.city import City
 from models.review import Review
 from models.place import Place
 
+
 class TestFileStorage(unittest.TestCase):
     """TestFilesStorage"""
-    
+
     def setUp(self):
         """ condition to test file saving """
         with open("test.json", 'w'):
@@ -29,7 +30,6 @@ class TestFileStorage(unittest.TestCase):
             os.remove("test.json")
         except FileNotFoundError:
             pass
-
 
     def test_class_doc(self):
         """ check for documentation """
