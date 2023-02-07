@@ -61,4 +61,5 @@ class TestCaseBaseModel(unittest.TestCase):
 
     def test_sizeofDict(self):
         """ is the dict the same length?  """
-        self.assertEqual(len(self.our_model.to_dict()), len(self.our_model.__dict__) + 1)
+        self.assertEqual(len(self.our_model.to_dict()),
+                         len(self.our_model.__dict__) + 1)
