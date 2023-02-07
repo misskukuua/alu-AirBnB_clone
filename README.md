@@ -24,7 +24,7 @@ of this project.
 ~$ ./console.py
 (hbnb) help
 
-Documented commands (type help <topic>):
+`Documented commands (type help <topic>):`
 ========================================
 EOF  create  help  quit
 
@@ -38,5 +38,5 @@ Quit command to exit the program
 ~$
 
 ## Authors
-Princess Ankiss Asare <p.asare@alustudent.com>
+Princess Ankiss Asare <p.asare@alustudent.com></br>
 Felista Kiriinya <f.kiriinya@alustudent.com>
