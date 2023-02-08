@@ -29,12 +29,16 @@ class TestCaseBaseModel(unittest.TestCase):
         self.assertEqual(type(self.our_model.to_dict()), dict)
 
     def test_createdAt(self):
-        """ test if created at is a string that can be found using created_at """
+        """ test if created at is a string that
+         can be found using created_at
+        """
         our_model_json = self.our_model.to_dict()
         self.assertEqual(type(our_model_json['created_at']), str)
 
     def test_updatedAt(self):
-        """ testing if updated at is a string that can be found using updated at"""
+        """ testing if updated at is a string that can
+          be found using updated at
+         """
         our_model_json = self.our_model.to_dict()
         self.assertEqual(type(our_model_json['updated_at']), str)
 
@@ -56,7 +60,8 @@ class TestCaseBaseModel(unittest.TestCase):
         """ test for string print function """
         temporary_model = str(self.our_model)
         self.assertEqual(temporary_model.split(" ")[0], "[BaseModel]")
-        self.assertEqual(temporary_model.split(" ")[1], "({})".format(self.our_model.id))
+        self.assertEqual(temporary_model.split(" ")[1],
+                         "({})".format(self.our_model.id))
         self.assertEqual(eval(temporary_model.split(" ")[2]), self.our_model.__dict__)
 
     def test_sizeofDict(self):
