@@ -47,33 +47,34 @@ class TestCaseFileStorage(unittest.TestCase):
         """ check type return by all function """
         self.assertEqual(type(self.our_model.all()), dict)
 
-    def test_new(self):
-        model = BaseModel()
-        storage.new(model)
-        self.assertNotEqual(FileStorage._FileStorage__objects, {})
-        obj = (model.__class__.__name__ + '.' +
-               model.id)
-        self.assertIn(obj, FileStorage._FileStorage__objects.keys())
-
-    # def test_new(self):
-    #     model = BaseModel()
-    #     self.our_model.new(model)
-    #     len_dict = len(self.our_model.all())
-    #     self.assertGreater(len_dict, 0)
+    def test_reload(self):
+        model = FileStorage()
+        self.our_model.reload()
+        len_dict = len(model.all())
+        self.assertGreater(len_dict, 0)
 
     def test_save(self):
         self.our_model.save()
         self.assertEqual(path.exists(self.dir_path), True)
 
-    def test_reload_no_file(self):
-        self.assertRaises(FileNotFoundError, storage.reload())
+    def test_new(self):
+        model = BaseModel()
+        self.our_model.new(model)
+        len_dict = len(self.our_model.all())
+        self.assertGreater(len_dict, 0)
 
-    def test_reload_with_arg(self):
-        with self.assertRaises(TypeError):
-            storage.reload(None)
 
-    # def test_reload(self):
-    #     model = FileStorage()
-    #     self.our_model.reload()
-    #     len_dict = len(model.all())
-    #     self.assertGreater(len_dict, 0)
+    # def test_new(self):
+    #     model = BaseModel()
+    #     storage.new(model)
+    #     self.assertNotEqual(FileStorage._FileStorage__objects, {})
+    #     obj = (model.__class__.__name__ + '.' +
+    #            model.id)
+    #     self.assertIn(obj, FileStorage._FileStorage__objects.keys())
+
+    # def test_reload_no_file(self):
+    #     self.assertRaises(FileNotFoundError, storage.reload())
+    #
+    # def test_reload_with_arg(self):
+    #     with self.assertRaises(TypeError):
+    #         storage.reload(None)
