@@ -1,4 +1,6 @@
-""" console interpreter """
+#!/usr/bin/python3
+""" Contains command line interpreter """
+
 import cmd
 from models import storage
 import models
@@ -97,7 +99,7 @@ class HBNBCommand(cmd.Cmd):
             all_objects = models.storage.all()
             for key, value in all_objects.items():
                 if value.id == inp[1] and value.__class__.__name__ == inp[0]:
-                    del (all_objects[key])
+                    del(all_objects[key])
                     models.storage.save()
                     return
             print("** no instance found **")
@@ -127,6 +129,7 @@ class HBNBCommand(cmd.Cmd):
        updates an instance based on the class name and id
        by adding or updating attribute
        save the change into the JSON file
+
        Usage: update <class name> <id>
        <attribute name> "<attribute value>"
        """
@@ -159,79 +162,6 @@ class HBNBCommand(cmd.Cmd):
             arg_3 = arg_3.strip('"')
             setattr(objdict.get(key), update[2], cast(arg_3))
             objdict[key].save()
-
-    # def do_destroy(self, *argv):
-    #     """Deletes an instance based on the class name and id
-    #     (saves the changes into the json file) """
-    #
-    #     items = argv[0].split(" ")
-    #     if (len(items)) == 1 and items[0] == '':
-    #         print("** class name missing **")
-    #     else:
-    #         if items[0] not in HBNBCommand.__classes:
-    #             print("** class doesn't exist **")
-    #         else:
-    #             if (len(items)) < 2:
-    #                 print("** instance id missing **")
-    #             else:
-    #                 try:
-    #                     del storage.all()[items[0] + "." + items[1]]
-    #                     storage.save()
-    #                 except KeyError:
-    #                     print("** no instance found **")
-    #
-    # def do_all(self, class_type):
-    #     """ prints all string representation of all instances based
-    #     or not on the class name """
-    #     all_objects = storage.all()
-    #     temp_dict = []
-    #
-    #     if not class_type:
-    #         for key, value in all_objects.items():
-    #             temp_dict.append(str(value))
-    #         print(temp_dict)
-    #     else:
-    #         if class_type not in HBNBCommand.__classes:
-    #             print("** class doesn't exist **")
-    #         else:
-    #             for key, value in enumerate(all_objects):
-    #                 out = all_objects[value]
-    #                 if class_type == out.__class__.__name__:
-    #                     temp_dict.append(str(out))
-    #             print(temp_dict)
-    #
-    # def do_update(self, *argv):
-    #     """ updates an instance based on the class\
-    #      name and id by adding or updating
-    #     attribute ( save the change into the json file)"""
-    #     items = argv[0].split(" ")
-    #
-    #     if (len(items)) == 1 and items[0] == '':
-    #         print("** class name missing **")
-    #     else:
-    #         if items[0] not in HBNBCommand.__classes:
-    #             print("** class doesn't exist **")
-    #         else:
-    #             if (len(items)) < 2:
-    #                 print("** instance id missing **")
-    #             else:
-    #                 try:
-    #                     temp_dict = storage.all()[items[0] + "." + items[1]]
-    #                     if (len(items)) < 3:
-    #                         print("** attribute name missing **")
-    #                     else:
-    #                         if (len(items)) == 3:
-    #                             print("** value missing **")
-    #                         elif (len(items)) == 4:
-    #                             # get the attribute specified and update it
-    #                             if type(items[3]) in [str, float, int]:
-    #                                 # set attr build in function
-    #                                 txt = items[3]
-    #                                 temp_dict.__dict__[items[2]] = txt[1:-1]
-    #                                 temp_dict.save()
-    #
-    #                 except KeyError:
-    #                     print("** no instance found **")
 
 
 if __name__ == '__main__':
