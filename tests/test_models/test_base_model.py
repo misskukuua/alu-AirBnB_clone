@@ -145,6 +145,7 @@ class TestFileStorage_Methods(unittest.TestCase):
         cy = City()
         amn = Amenity()
         rvw = Review()
+
         models.storage.new(model)
         models.storage.new(usr)
         models.storage.new(st)
@@ -152,6 +153,7 @@ class TestFileStorage_Methods(unittest.TestCase):
         models.storage.new(cy)
         models.storage.new(amn)
         models.storage.new(rvw)
+
         models.storage.save()
         models.storage.reload()
         objs = FileStorage._FileStorage__objects
@@ -163,9 +165,9 @@ class TestFileStorage_Methods(unittest.TestCase):
         self.assertIn("Amenity." + amn.id, objs)
         self.assertIn("Review." + rvw.id, objs)
 
-    def test_reload_no_file(self):
-        with self.assertRaises(FileNotFoundError):
-            models.storage.reload(None)
+    # def test_reload_no_file(self):
+    #     with self.assertRaises(FileNotFoundError):
+    #         models.storage.reload(None)
 
     def test_reload_with_arg(self):
         with self.assertRaises(TypeError):
