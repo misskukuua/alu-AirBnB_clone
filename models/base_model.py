@@ -15,8 +15,8 @@ class BaseModel:
 
         # form = "%Y-%m-%dT%H:%M:%S.%f"
         self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        self.created_at = datetime.utcnow()
+        self.updated_at = datetime.utcnow()
         if len(kwargs) != 0:
             for key, val in kwargs.items():
                 if key == "self.created_at" or key == "self.updated_at":
@@ -33,7 +33,7 @@ class BaseModel:
 
     def save(self):
         """ Update with current time"""
-        self.updated_at = datetime.today()
+        self.updated_at = datetime.utcnow()
         models.storage.save()
 
     def to_dict(self):
