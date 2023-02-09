@@ -21,7 +21,9 @@ of this project.
 | show         | show the information of an object | (hbnb) show <class> <id> or <br/> (hbnb) <class>.show(<id>) |
 
 ## **Examples:**
-<img src="C:\Users\Lenovo\OneDrive\Desktop\AirBnB Clone\Screenshot 2023-02-05 162038.png"/>
+root@0f45fa67b07b:/alu-AirBnB_clone# ./console.py
+(hbnb)all MyModel
+** class doesn't exist **
 
 ## Authors
 Princess Ankiss Asare <p.asare@alustudent.com></br>
