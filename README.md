@@ -22,7 +22,6 @@ of this project.
 
 ## **Examples:**
 
-
 ## Authors
 Princess Ankiss Asare <p.asare@alustudent.com></br>
 Felista Kiriinya <f.kiriinya@alustudent.com>
