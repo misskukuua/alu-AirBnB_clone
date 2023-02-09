@@ -23,7 +23,7 @@ class TestCity(unittest.TestCase):
     def test_is_class(self):
         """test instance."""
         c = City()
-        self.assertEqual(str(type(c)), "<class 'models.c.City'>")
+        self.assertEqual(str(type(c)), "<class 'models.city.City'>")
 
     def test_state_id(self):
         """ Test field attributes of user """

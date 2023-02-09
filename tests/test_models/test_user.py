@@ -20,7 +20,7 @@ class TestUser(unittest.TestCase):
     def test_is_class(self):
         """test instance."""
         u = User()
-        self.assertEqual(str(type(u)), "<class 'models.u.User'>")
+        self.assertEqual(str(type(u)), "<class 'models.user.User'>")
 
     def test_is_subclass(self):
         """test is_subclass."""
