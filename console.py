@@ -1,36 +1,42 @@
 """ console interpreter """
 import cmd
-from models.base_model import BaseModel
 from models import storage
+import models
+from models.base_model import BaseModel
 from models.user import User
-from models.city import City
 from models.state import State
+from models.city import City
 from models.place import Place
-from models.review import Review
 from models.amenity import Amenity
+from models.review import Review
+import re
+import shlex
 
 
 class HBNBCommand(cmd.Cmd):
-    existing_classes = ['BaseModel', 'User', 'City',
-                        'State', 'Place', 'Review', 'Amenity', ' ']
     prompt = "(hbnb)"
+    """Creates hbnb as a  prompt"""
 
-    # test = BaseModel()
-    # print(test)
+    __classes = {"BaseModel": BaseModel,
+                 "User": User,
+                 "State": State,
+                 "City": City,
+                 "Place": Place,
+                 "Amenity": Amenity,
+                 "Review": Review
+                 }
+
+    def do_EOF(self, line):
+        """ EOF Program to exit command console """
+        return True
+
+    def do_quit(self, line):
+        """ Quit program to exit the console """
+        return True
 
     def emptyline(self):
-        """ called when empty line
-        is entered in response """
-        pass
-
-    def do_quit(self, argv):
-        """exit - Exit Applicaiton"""
-        return True
-
-    def do_EOF(self, argv):
-        """ end of file """
-        print("")
-        return True
+        """ an empty line + enter should do nothing """
+        return False
 
     def do_create(self, new_class):
         """ Creates a new instance of Basemodel
@@ -38,7 +44,7 @@ class HBNBCommand(cmd.Cmd):
         if not new_class:
             print("** class name missing **")
         else:
-            if new_class not in self.existing_classes:
+            if new_class not in HBNBCommand.__classes:
                 print("** class doesn't exist **")
             else:
                 new_class = eval(new_class + "()")
@@ -52,7 +58,7 @@ class HBNBCommand(cmd.Cmd):
         if (len(items)) == 1 and items[0] == '':
             print("** class name missing **")
         else:
-            if items[0] not in self.existing_classes:
+            if items[0] not in HBNBCommand.__classes:
                 print("** class doesn't exist **")
             else:
                 if (len(items)) < 2:
@@ -72,7 +78,7 @@ class HBNBCommand(cmd.Cmd):
         if (len(items)) == 1 and items[0] == '':
             print("** class name missing **")
         else:
-            if items[0] not in self.existing_classes:
+            if items[0] not in HBNBCommand.__classes:
                 print("** class doesn't exist **")
             else:
                 if (len(items)) < 2:
@@ -95,7 +101,7 @@ class HBNBCommand(cmd.Cmd):
                 temp_dict.append(str(value))
             print(temp_dict)
         else:
-            if class_type not in self.existing_classes:
+            if class_type not in HBNBCommand.__classes:
                 print("** class doesn't exist **")
             else:
                 for key, value in enumerate(all_objects):
@@ -113,7 +119,7 @@ class HBNBCommand(cmd.Cmd):
         if (len(items)) == 1 and items[0] == '':
             print("** class name missing **")
         else:
-            if items[0] not in self.existing_classes:
+            if items[0] not in HBNBCommand.__classes:
                 print("** class doesn't exist **")
             else:
                 if (len(items)) < 2:
