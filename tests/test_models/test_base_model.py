@@ -27,7 +27,7 @@ class TestFileStorage(unittest.TestCase):
 
     def test_FileStorage_instantiation_with_arg(self):
         with self.assertRaises(TypeError):
-            FileStorage()
+            FileStorage(None)
 
     def test_FileStorage_file_path_is_private_str(self):
         self.assertEqual(str, type(FileStorage._FileStorage__file_path))
@@ -66,7 +66,7 @@ class TestFileStorage_Methods(unittest.TestCase):
 
     def test_all_with_arg(self):
         with self.assertRaises(TypeError):
-            models.storage.all()
+            models.storage.all(None)
 
     def test_new(self):
         model = BaseModel()
@@ -104,7 +104,7 @@ class TestFileStorage_Methods(unittest.TestCase):
 
     def test_new_with_None(self):
         with self.assertRaises(AttributeError):
-            models.storage.new()
+            models.storage.new(None)
 
     def test_save(self):
         model = BaseModel()
@@ -164,7 +164,8 @@ class TestFileStorage_Methods(unittest.TestCase):
         self.assertIn("Review." + rvw.id, objs)
 
     def test_reload_no_file(self):
-        self.assertRaises(FileNotFoundError, models.storage.reload())
+        with self.assertRaises(FileNotFoundError):
+            models.storage.reload()
 
     def test_reload_with_arg(self):
         with self.assertRaises(TypeError):
