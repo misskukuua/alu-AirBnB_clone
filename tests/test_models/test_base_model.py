@@ -56,7 +56,8 @@ class TestCaseBaseModel(unittest.TestCase):
         """ test for string print function """
         temporary_model = str(self.our_model)
         self.assertEqual(temporary_model.split(" ")[0], "[BaseModel]")
-        self.assertEqual(temporary_model.split(" ")[1], "({})".format(self.our_model.id))
+        self.assertEqual(temporary_model.split(" ")[1],
+                         "({})".format(self.our_model.id))
         self.assertEqual(eval(temporary_model.split(" ")[2]), self.our_model.__dict__)
 
     def test_sizeofDict(self):
