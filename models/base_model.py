@@ -13,18 +13,23 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """Initialization a new base model"""
 
-        form = "%Y-%m-%dT%H:%M:%S.%f"
+        # form = "%Y-%m-%dT%H:%M:%S.%f"
         self.id = str(uuid.uuid4())
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
         if len(kwargs) != 0:
-            for key, value in kwargs.items():
+            for key, val in kwargs.items():
                 if key == "self.created_at" or key == "self.updated_at":
-                    self.__dict__[key] = datetime.strptime(value, form)
+                    val = datetime.fromisoformat(val)
+                    setattr(self, key, val)
+                    continue
+                if key != '__class__':
+                    setattr(self, key, val)
                 else:
-                    self.__dict__[key] = value
-        else:
-            models.storage.new(self)
+                    self.id = str(uuid.uuid4())
+                    self.created_at = datetime.utcnow()
+                    self.updated_at = datetime.utcnow()
+                    models.storage.new(self)
 
     def save(self):
         """ Update with current time"""
