@@ -1,178 +1,90 @@
 #!/usr/bin/python3
-"""Unittest for FileStorage Class.
-Unittest classes:
-    TestFileStorage_instantiation
-    TestFileStorage_methods
-"""
-import os
-import json
-import models
+
+""" tests for our main base classes"""
+
+import io
+
 import unittest
-from datetime import datetime
+
+from time import sleep
+
 from models.base_model import BaseModel
-from models.engine.file_storage import FileStorage
-from models.user import User
-from models.state import State
-from models.place import Place
-from models.city import City
-from models.amenity import Amenity
-from models.review import Review
 
 
-class TestFileStorage(unittest.TestCase):
-    """Unittests for testing instantiation of the FileStorage class."""
+class TestCaseBaseModel(unittest.TestCase):
 
-    def test_FileStorage_instantiation_no_args(self):
-        self.assertEqual(type(FileStorage()), FileStorage)
-
-    def test_FileStorage_instantiation_with_arg(self):
-        with self.assertRaises(TypeError):
-            FileStorage(None)
-
-    def test_FileStorage_file_path_is_private_str(self):
-        self.assertEqual(str, type(FileStorage._FileStorage__file_path))
-
-    def testFileStorage_objects_is_private_dict(self):
-        self.assertEqual(dict, type(FileStorage._FileStorage__objects))
-
-    def test_storage_initializes(self):
-        self.assertEqual(type(models.storage), FileStorage)
-
-
-class TestFileStorage_Methods(unittest.TestCase):
-    """Unittests for testing methods of the FileStorage class."""
-
-    @classmethod
     def setUp(self):
-        try:
-            os.rename("file.json", "tmp")
-        except IOError:
-            pass
+        """ components for the test """
 
-    @classmethod
-    def tearDown(self):
-        try:
-            os.remove("file.json")
-        except IOError:
-            pass
-        try:
-            os.rename("tmp", "file.json")
-        except IOError:
-            pass
-        FileStorage._FileStorage__objects = {}
+        self.our_model = BaseModel()
 
-    def test_all(self):
-        self.assertEqual(dict, type(models.storage.all()))
+        self.our_model.name = "Our first model"
 
-    def test_all_with_arg(self):
-        with self.assertRaises(TypeError):
-            models.storage.all(None)
+        self.our_model.our_number = 20
 
-    def test_new(self):
-        model = BaseModel()
-        usr = User()
-        st = State()
-        plc = Place()
-        cy = City()
-        amn = Amenity()
-        rvw = Review()
-        models.storage.new(model)
-        models.storage.new(usr)
-        models.storage.new(st)
-        models.storage.new(plc)
-        models.storage.new(cy)
-        models.storage.new(amn)
-        models.storage.new(rvw)
-        self.assertIn("BaseModel." + model.id, models.storage.all().keys())
-        self.assertIn(model, models.storage.all().values())
-        self.assertIn("User." + usr.id, models.storage.all().keys())
-        self.assertIn(usr, models.storage.all().values())
-        self.assertIn("State." + st.id, models.storage.all().keys())
-        self.assertIn(st, models.storage.all().values())
-        self.assertIn("Place." + plc.id, models.storage.all().keys())
-        self.assertIn(plc, models.storage.all().values())
-        self.assertIn("City." + cy.id, models.storage.all().keys())
-        self.assertIn(cy, models.storage.all().values())
-        self.assertIn("Amenity." + amn.id, models.storage.all().keys())
-        self.assertIn(amn, models.storage.all().values())
-        self.assertIn("Review." + rvw.id, models.storage.all().keys())
-        self.assertIn(rvw, models.storage.all().values())
+    def test_NumberAdded(self):
+        """test number added """
 
-    def test_new_with_args(self):
-        with self.assertRaises(TypeError):
-            models.storage.new(BaseModel(), 1)
+        self.assertEqual(self.our_model.our_number, 20)
 
-    def test_new_with_None(self):
-        with self.assertRaises(AttributeError):
-            models.storage.new(None)
+    def test_classType(self):
+        """ testing class type """
+
+        self.assertEqual(self.our_model.__class__.__name__, 'BaseModel')
+
+    def test_toDict(self):
+        """ to dict returns a dictionary - checking the return type"""
+
+        self.assertEqual(type(self.our_model.to_dict()), dict)
+
+    def test_createdAt(self):
+        """ test if created at is a string that can be found using created_at """
+
+        our_model_json = self.our_model.to_dict()
+
+        self.assertEqual(type(our_model_json['created_at']), str)
+
+    def test_updatedAt(self):
+        """ testing if updated at is a string that can be found using updated at"""
+
+        our_model_json = self.our_model.to_dict()
+
+        self.assertEqual(type(our_model_json['updated_at']), str)
 
     def test_save(self):
-        model = BaseModel()
-        usr = User()
-        st = State()
-        plc = Place()
-        cy = City()
-        amn = Amenity()
-        rvw = Review()
-        models.storage.new(model)
-        models.storage.new(usr)
-        models.storage.new(st)
-        models.storage.new(plc)
-        models.storage.new(cy)
-        models.storage.new(amn)
-        models.storage.new(rvw)
-        models.storage.save()
-        save_text = ""
-        with open("file.json", "r") as f:
-            save_text = f.read()
-            self.assertIn("BaseModel." + model.id, save_text)
-            self.assertIn("User." + usr.id, save_text)
-            self.assertIn("State." + st.id, save_text)
-            self.assertIn("Place." + plc.id, save_text)
-            self.assertIn("City." + cy.id, save_text)
-            self.assertIn("Amenity." + amn.id, save_text)
-            self.assertIn("Review." + rvw.id, save_text)
+        """ testing if this updates the time """
 
-    def test_save_with_arg(self):
-        with self.assertRaises(TypeError):
-            models.storage.save(None)
+        old_time = self.our_model.to_dict()['updated_at']
 
-    def test_reload(self):
-        model = BaseModel()
-        usr = User()
-        st = State()
-        plc = Place()
-        cy = City()
-        amn = Amenity()
-        rvw = Review()
+        sleep(2)
 
-        models.storage.new(model)
-        models.storage.new(usr)
-        models.storage.new(st)
-        models.storage.new(plc)
-        models.storage.new(cy)
-        models.storage.new(amn)
-        models.storage.new(rvw)
+        self.our_model.save()
 
-        models.storage.save()
-        models.storage.reload()
-        objs = FileStorage._FileStorage__objects
-        self.assertIn("BaseModel." + model.id, objs)
-        self.assertIn("User." + usr.id, objs)
-        self.assertIn("State." + st.id, objs)
-        self.assertIn("Place." + plc.id, objs)
-        self.assertIn("City." + cy.id, objs)
-        self.assertIn("Amenity." + amn.id, objs)
-        self.assertIn("Review." + rvw.id, objs)
+        self.assertNotEqual(self.our_model.to_dict()['created_at'],
 
-    # def test_reload_no_file(self):
-    #     with self.assertRaises(FileNotFoundError):
-    #         models.storage.reload(None)
+                            self.our_model.to_dict()['updated_at'])
 
-    def test_reload_with_arg(self):
-        with self.assertRaises(TypeError):
-            models.storage.reload(None)
+    def test_id(self):
+        """  id should remain the same at any time  """
 
+        self.our_model.save()
 
-if __name__ == "__main__":
-    unittest.main()
+        our_model_json = self.our_model.to_dict()
+
+        self.assertEqual(our_model_json['id'], self.our_model.__dict__['id'])
+
+    def test_str_(self):
+        """ test for string print function """
+
+        temporary_model = str(self.our_model)
+
+        self.assertEqual(temporary_model.split(" ")[0], "[BaseModel]")
+
+        self.assertEqual(temporary_model.split(" ")[1], "({})".format(self.our_model.id))
+
+        self.assertEqual(eval(temporary_model.split(" ")[2]), self.our_model.__dict__)
+
+    def test_sizeofDict(self):
+        """ is the dict the same length?  """
+
+        self.assertEqual(len(self.our_model.to_dict()), len(self.our_model.__dict__) + 1)
