@@ -64,33 +64,30 @@ class HBNBCommand(cmd.Cmd):
         storage.save()
         
 
-    def do_show(self, line):
-        """Prints the string representation of an instance
-          based on the class name and id
-       """
-        show = line.split()
-        objdict = models.storage.all()
-
-        if len(show) == 0:
-            """print class name is name is missing If the class name is missing,"""
+    def do_show(self, args):
+        """Usage: to show <class> <id> or <class>.show(<id>)
+        Display string representation of a class instance of given id.
+        """
+        arg_list = args.split()
+        objdict = storage.all()
+        if len(arg_list) == 0:
             print("** class name missing **")
             return
-
-        elif len(show) == 1:
-            """If the id is missing, print ** instance id missing **"""
+        elif arg_list[0] not in self.__classes:
+            print("** class doesn't exist **")
+            return
+        elif len(arg_list) == 1:
             print("** instance id missing **")
             return
 
-        elif show[0] not in HBNBCommand.__classes:
-            """If the class name doesn’t exist, print ** class doesn't exist **"""
-            print("** class doesn't exist **")
-            return
+        object_key = "{}.{}".format(arg_list[0], arg_list[1])
 
-        elif "{}.{}".format(show[0], show[1]) not in objdict:
+        if object_key not in objdict:
             print("** no instance found **")
             return
         else:
-            print(objdict["{}.{}".format(show[0], show[1])])
+            print(objdict[object_key])
+
 
     def do_destroy(self, args):
         """Usage: to destroy <class> <id> or <class>.destroy(<id>)
@@ -118,25 +115,30 @@ class HBNBCommand(cmd.Cmd):
             del all_objects[object_key]
             storage.save()
 
-    def do_all(self, line):
+    def do_all(self, args):
         """
        Prints all string representation of all instances
        based or not on the class name.
        """
-        dall = line.split()
-        if len(dall) > 0 and dall[0] not in HBNBCommand.__classes:
-            print("** class doesn't exist **")
+        arg_list = args.split()
+        all_objects = storage.all()
+        object_list = []
+        if len(arg_list) == 0:
+            for obj in all_objects.values():
+                object_list.append(obj.__str__())
+            print(list(object_list))
+            return
 
-        else:
-            obj1 = models.storage.all()
-            objects = obj1.values()
-            obj2 = []
-            for obj in objects:
-                if len(dall) > 0 and dall[0] == obj.__class__.__name__:
-                    obj2.append(obj.__str__())
-                elif len(dall) == 0:
-                    obj2.append(obj.__str__())
-            print(obj2)
+        if len(arg_list) > 0 and arg_list[0] not in self.__all_classes:
+            print("** class doesn't exist **")
+            return
+        class_name = arg_list[0]
+        object_list = []
+
+        for obj in all_objects:
+            if class_name == all_objects[obj].__class__.__name__:
+                object_list.append(str(all_objects[obj]))
+        print(object_list)
 
     def do_update(self, line):
         """
