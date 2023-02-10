@@ -46,19 +46,18 @@ class HBNBCommand(cmd.Cmd):
             saves it (to the JSON file) and prints the id.
             Usage: create <class_name>
        """
-       
+
         if len(args) < 1:
             print("** class name missing **")
             return
-        
+
         args = args.split()
 
-      
         class_name = args[0]
         if class_name not in self.__classes:
             print("** class doesn't exist **")
             return
-       
+
         new_object = eval(class_name + "()")
         new_object.save()
         print(new_object.id)
