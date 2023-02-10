@@ -51,6 +51,8 @@ class HBNBCommand(cmd.Cmd):
                 line = eval(line + "()")
                 line.save()
                 print(line.__dict__['id'])
+                models.storage.save()
+        
 
     def do_show(self, line):
         """Prints the string representation of an instance
