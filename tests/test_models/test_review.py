@@ -7,6 +7,7 @@ import unittest
 from models.review import Review
 from models.base_model import BaseModel
 
+
 class TestState(unittest.TestCase):
     """Test cases Review class."""
 
@@ -35,7 +36,7 @@ class TestState(unittest.TestCase):
         review = Review()
         self.assertEqual(review.user_id, "")
 
-    def test_place_id(self):
+    def test_place(self):
         """Place text"""
         review = Review()
         self.assertEqual(review.text, "")

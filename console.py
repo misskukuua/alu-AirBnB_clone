@@ -41,24 +41,17 @@ class HBNBCommand(cmd.Cmd):
         return False
 
     def do_create(self, inp):
-        inp = shlex.split(inp)
-        if inp == [0]:
+        inp = inp.split()
+        inp = inp[0]
+        if len(inp) == [0]:
             print("** class name missing **")
-        elif inp[0] not in ["BaseModel", "User", "Place", "State",
-                            "City", "Amenity", "Review"]:
+        elif inp[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-        else:
-            classes = {"Amenity": Amenity,
-                       "BaseModel": BaseModel,
-                       "City": City,
-                       "Place": Place,
-                       "Review": Review,
-                       "State": State,
-                       "User": User}
-            models.storage.reload()
-            new = classes[inp[0]]()
-            new.save()
-            print(new.id)
+            return
+        new_obj = eval(inp + "()")
+        new_obj.save()
+        print(new_obj.id)
+        storage.save()
 
     def do_show(self, line):
         """Prints the string representation of an instance
@@ -93,22 +86,24 @@ class HBNBCommand(cmd.Cmd):
             print(objdict["{}.{}".format(show[0], show[1])])
 
     def do_destroy(self, inp):
-        inp = shlex.split(inp)
+        inp = inp.split()
+        object_dict = models.storage.all()
         if not inp:
             print("** class name missing **")
+            return
         elif inp[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
+            return
         elif len(inp) == 1:
             print("** instance id missing **")
-        else:
-            models.storage.reload()
-            all_objects = models.storage.all()
-            for key, value in all_objects.items():
-                if value.id == inp[1] and value.__class__.__name__ == inp[0]:
-                    del (all_objects[key])
-                    models.storage.save()
-                    return
+            return
+        instance_id = inp[1]
+
+        if "{}.{}".format(inp[0], instance_id) not in object_dict.keys():
             print("** no instance found **")
+        else:
+            del (object_dict["{}.{}".format(inp[0], instance_id)])
+            models.storage.save()
 
     def do_all(self, line):
         """
