@@ -50,7 +50,7 @@ class TestBaseModel(unittest.TestCase):
         time.sleep(1)
         base.save()
         self.assertTrue(os.path.isfile("file.json"))
-        with open("file.json", 'w') as file:
+        with open("file.json", 'r+') as file:
             serialized_content = json.load(file)
             for item in serialized_content.values():
                 self.assertIsNotNone(item['__class__'])
