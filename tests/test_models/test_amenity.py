@@ -1,27 +1,38 @@
-""" Test for Amenity """
+#!/usr/bin/python3
+
+"""Unittest for Amenity Class."""
 
 import unittest
+
 from models.amenity import Amenity
+
 from models.base_model import BaseModel
 
 
-class AmenityTest(unittest.TestCase):
-    """tests for amenities"""
+class TestAmenity(unittest.TestCase):
+    """Test cases for  Amenity class."""
 
-    def test_assert_is_instance(self):
-        """ Test init instance is ok """
-        a = Amenity()
-        self.assertIsInstance(a, Amenity)
+    def test_instance(self):
+        """test instance."""
+        amenity = Amenity()
+        self.assertIsInstance(amenity, Amenity)
 
-    def test_assert_is_subclass(self):
-        """ Test amenity is subclass BaseModel """
-        a = Amenity()
-        self.assertTrue(issubclass(a.__class__, BaseModel), True)
+    def test_is_class(self):
+        """test instance."""
+        amenity = Amenity()
+        self.assertEqual(str(type(amenity)),
+                         "<class 'models.amenity.Amenity'>")
 
-    def test_class_attr(self):
-        a = Amenity()
-        self.assertIs(type(a.name), str)
-        self.assertFalse(bool(getattr(a, "name")))
+    def test_is_subclass(self):
+        """test subclass."""
+        amenity = Amenity()
+        self.assertTrue(issubclass(type(amenity), BaseModel))
+
+    def test_attr(self):
+        """test subclass."""
+        amenity = Amenity()
+        self.assertEqual(amenity.name, "")
+        self.assertIsNotNone(amenity.id)
 
 
 if __name__ == "__main__":

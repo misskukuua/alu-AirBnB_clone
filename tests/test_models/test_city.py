@@ -3,37 +3,39 @@
 
 import unittest
 
-from models.base_model import BaseModel
 from models.city import City
+
+from models.base_model import BaseModel
 
 
 class TestCity(unittest.TestCase):
     """Test cases for the City class"""
 
-    def test_assert_is_instance(self):
-        """ Test init instance is ok """
-        c = City()
-        self.assertIsInstance(c, City)
-
-    def test_is_subclass(self):
-        """test is_subclass."""
-        c = City()
-        self.assertTrue(issubclass(type(c), BaseModel))
+    def test_instance(self):
+        """test instance."""
+        city = City()
+        self.assertIsInstance(city, City)
 
     def test_is_class(self):
         """test instance."""
-        c = City()
-        self.assertEqual(str(type(c)), "<class 'models.city.City'>")
+        city = City()
+        self.assertEqual(str(type(city)),
+                         "<class 'models.city.City'>")
 
-    def test_state_id(self):
-        """ Test field attributes of user """
-        c = City()
-        self.assertTrue(type(c.state_id) == str)
+    def test_is_subclass(self):
+        """test is_subclass."""
+        city = City()
+        self.assertTrue(issubclass(type(city), BaseModel))
 
     def test_name(self):
-        """ Test field attributes of user """
-        c = City()
-        self.assertTrue(type(c.name) == str)
+        """test is_subclass."""
+        city = City()
+        self.assertEqual(city.name, "")
+
+    def test_state_id(self):
+        """test is_subclass."""
+        city = City()
+        self.assertEqual(city.state_id, "")
 
 
 if __name__ == "__main__":

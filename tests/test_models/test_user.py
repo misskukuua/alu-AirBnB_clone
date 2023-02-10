@@ -1,22 +1,66 @@
 #!/usr/bin/python3
-"""Unit test for User class"""
+
+"""Unittest for User Class."""
+
 import unittest
+
 from models.user import User
 
+from models.base_model import BaseModel
 
-class TestUser(unittest.TestCase):
-    def test_class(self):
-        """Tests the class of an instance of User"""
+
+class TestCity(unittest.TestCase):
+    """Test cases User class."""
+
+    def test_instance(self):
+        """test instance."""
         user = User()
-        self.assertEqual(user.__class__.__name__, "User")
+        self.assertIsInstance(user, User)
 
-    def test_user_attributes(self):
-        """Tests the initialization of attributes in User instance"""
+    def test_is_class(self):
+        """test instance."""
         user = User()
-        self.assertEqual(user.email, "")
-        self.assertEqual(user.password, "")
-        self.assertEqual(user.first_name, "")
-        self.assertEqual(user.last_name, "")
+        self.assertEqual(str(type(user)),
+                         "<class 'models.user.User'>")
 
-    if __name__ == '__main__':
-        unittest.main()
+    def test_is_subclass(self):
+        """test is_subclass."""
+        user = User()
+        self.assertTrue(issubclass(type(user), BaseModel))
+
+    def test_id(self):
+        """test email."""
+        my_user = User()
+        self.assertIsNotNone(my_user.id)
+
+    def test_email(self):
+        """test email."""
+        my_user = User()
+        self.assertEqual(my_user.email, "")
+        my_user.email = "airbnb@mail.com"
+        self.assertEqual(my_user.email, "airbnb@mail.com")
+
+    def test_password(self):
+        """test password."""
+        my_user = User()
+        self.assertEqual(my_user.password, "")
+        my_user.password = "root"
+        self.assertEqual(my_user.password, "root")
+
+    def test_first_name(self):
+        """test first name."""
+        my_user = User()
+        self.assertEqual(my_user.first_name, "")
+        my_user.first_name = "Betty"
+        self.assertEqual(my_user.first_name, "Betty")
+
+    def test_last_name(self):
+        """test last name."""
+        my_user = User()
+        self.assertEqual(my_user.last_name, "")
+        my_user.first_name = "Bar"
+        self.assertEqual(my_user.first_name, "Bar")
+
+
+if __name__ == "__main__":
+    unittest.main()
