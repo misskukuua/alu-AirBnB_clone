@@ -53,10 +53,6 @@ class HBNBCommand(cmd.Cmd):
         """
         Called when an empty line is entered.
         If this method is not overridden like this,
-        it repeats the last nonempty
-        command entered.
-        It should not be empty_line, so ignore the typo warnings.
-        (see: https://github.com/python/cpython/blob/3.11/Lib/cmd.py)
         """
         pass
 
@@ -101,13 +97,9 @@ class HBNBCommand(cmd.Cmd):
         if len(args) < 1:
             print("** class name missing **")
             return
-        # If the class name doesn’t exist,
-        # print ** class doesn't exist ** (ex: $ create MyModel)
 
-        # convert the args to a list
         args = args.split()
 
-        # the 1st element of the list is the class name
         class_name = args[0]
         if class_name not in self.__all_classes:
             print("** class doesn't exist **")
@@ -207,8 +199,6 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, args):
         """Usage: to update <class> <id> <attribute_name> <attribute_value> or
-       <class>.update(<id>, <attribute_name>, <attribute_value>) or
-       <class>.update(<id>, <dictionary>)
         Update class instance of given id by adding or updating
        given attribute key/value pair or dictionary."""
 
@@ -251,11 +241,8 @@ class HBNBCommand(cmd.Cmd):
             elif isinstance(attribute_value, int):
                 attribute_value = int(attribute_value)
 
-        # update BaseModel 00c0c670-e5f3-4603-9aa1-3caca5ee0e75
-        # email "aibnb@mail.com"
-
         obj = all_objects[object_key]
-        # check if the attribute exist already
+
         if attribute_name in obj.to_dict():
             attribute_original_type = type(obj[attribute_name])
             attribute_value = attribute_original_type(attribute_value)
@@ -263,7 +250,6 @@ class HBNBCommand(cmd.Cmd):
             if attribute_original_type in {str, int, float}:
                 attribute_value = attribute_original_type(attribute_value)
                 obj[attribute_name] = attribute_value
-        # if it doesn’t exist we add it
         else:
             obj.__dict__.update({attribute_name: attribute_value})
 
@@ -271,10 +257,4 @@ class HBNBCommand(cmd.Cmd):
 
 
 if __name__ == "__main__":
-    """
-    Repeatedly issue a prompt, accept input, parse an initial prefix
-    off the received input, and dispatch to action methods, passing them
-    the remainder of the line as argument.
-    (see: https://github.com/python/cpython/blob/3.8/Lib/cmd.py#L98)
-    """
     HBNBCommand().cmdloop()

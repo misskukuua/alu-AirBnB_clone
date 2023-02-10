@@ -8,10 +8,12 @@ from uuid import uuid4
 from datetime import datetime
 import models
 
+
 class BaseModel:
     """
     The base class for all classes
     """
+
     def __init__(self, *args, **kwargs):
         """Initialize the base model"""
         if kwargs.__len__() > 0:
@@ -33,7 +35,7 @@ class BaseModel:
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
-        
+
         """
         updates the public instance attribute 'updated_at' with the current datetime
         """

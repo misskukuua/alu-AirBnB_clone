@@ -13,24 +13,23 @@ from models.city import City
 from models.review import Review
 from models.place import Place
 
+
 class TestFileStorage(unittest.TestCase):
     """TestFilesStorage"""
-    
+
     def setUp(self):
         """ condition to test file saving """
-        with open("test.json", 'w'):
-            FileStorage._FileStorage__file_path = "test.json"
+        with open("file.json", 'w'):
+            FileStorage._FileStorage__file_path = "file.json"
             FileStorage._FileStorage__objects = {}
 
     def tearDown(self):
         """ destroys created file """
         FileStorage._FileStorage__file_path = "file.json"
         try:
-            os.remove("test.json")
+            os.remove("file.json")
         except FileNotFoundError:
             pass
-
-  
 
     def test_class_doc(self):
         """ check for documentation """
@@ -40,8 +39,6 @@ class TestFileStorage(unittest.TestCase):
         """ check for method documentation """
         for func in dir(FileStorage):
             self.assertTrue(len(func.__doc__) > 0)
-
-   
 
     def test_all(self):
         """ Test method all from filestorage """
@@ -88,7 +85,6 @@ class TestFileStorage(unittest.TestCase):
     def test_instance(self):
         """ Check storage """
         self.assertIsInstance(models.storage, FileStorage)
-
 
 
 if __name__ == '__main__':
