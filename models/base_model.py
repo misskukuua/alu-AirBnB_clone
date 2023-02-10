@@ -9,33 +9,25 @@ class BaseModel:
     """ Base Model class """
 
     def __init__(self, *args, **kwargs):
-        """Initialization a new base model"""
+        """Initialize a new BaseModel."""
 
-        form = "%Y-%m-%dT%H:%M:%S.%f"
+        tform = "%Y-%m-%dT%H:%M:%S.%f"
         self.id = str(uuid.uuid4())
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
-        if len(kwargs) != 0:
-            for key, value in kwargs.items():
-                if key == "self.created_at" or key == "self.updated_at":
-                    self.__dict__[key] = datetime.strptime(value, form)
-                else:
-                    self.__dict__[key] = value
+
+        if kwargs:
+            kwargs["created_at"] = datetime.strptime(
+                kwargs["created_at"], tform)
+            kwargs["updated_at"] = datetime.strptime(
+                kwargs["updated_at"], tform)
+            del kwargs["__class__"]
+            self.__dict__.update(kwargs)
         else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
             models.storage.new(self)
-        # if len(kwargs) != 0:
-        #     for key, val in kwargs.items():
-        #         if key == "self.created_at" or key == "self.updated_at":
-        #             val = datetime.fromisoformat(val)
-        #             setattr(self, key, val)
-        #             continue
-        #         if key != '__class__':
-        #             setattr(self, key, val)
-        #         else:
-        #             self.id = str(uuid.uuid4())
-        #             self.created_at = datetime.utcnow()
-        #             self.updated_at = datetime.utcnow()
-        #             models.storage.new(self)
 
     def save(self):
         """ Update with current time"""
