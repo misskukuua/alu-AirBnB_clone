@@ -1,74 +1,77 @@
 #!/usr/bin/python3
-""" tests for our main base classes"""
 
-import io
-import unittest
-from time import sleep
 
+"""Unittest module for the BaseModel Class."""
+
+from models import storage
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
+from datetime import datetime
+import json
+import os
+import re
+import time
+import unittest
+import time
+import uuid
+from io import StringIO
+from unittest.mock import patch
 
 
-class TestCaseBaseModel(unittest.TestCase):
+class TestBaseModel(unittest.TestCase):
+    """Test cases for BaseModel ."""
 
-    def setUp(self):
-        """ components for the test """
-        self.our_model = BaseModel()
-        self.our_model.name = "Our first model"
-        self.our_model.our_number = 20
+    def test_instance(self):
+        """test instance."""
+        base = BaseModel()
+        self.assertIsInstance(base, BaseModel)
 
-    def test_NumberAdded(self):
-        """test number added """
-        self.assertEqual(self.our_model.our_number, 20)
-
-    def test_classType(self):
-        """ testing class type """
-        self.assertEqual(self.our_model.__class__.__name__, 'BaseModel')
-
-    def test_toDict(self):
-        """ to dict returns a dictionary - checking the return type"""
-        self.assertEqual(type(self.our_model.to_dict()), dict)
-
-    def test_createdAt(self):
-        """ test if created at is a string that can be found using created_at """
-        our_model_json = self.our_model.to_dict()
-        self.assertEqual(type(our_model_json['created_at']), str)
-
-    def test_updatedAt(self):
-        """ testing if updated at is a string that can be found using updated at"""
-        our_model_json = self.our_model.to_dict()
-        self.assertEqual(type(our_model_json['updated_at']), str)
+    def test_is_class(self):
+        """test instance."""
+        base = BaseModel()
+        self.assertEqual(str(type(base)),
+                         "<class 'models.base_model.BaseModel'>")
 
     def test_save(self):
-        """ testing if this updates the time """
-        old_time = self.our_model.to_dict()['updated_at']
-        sleep(2)
-        self.our_model.save()
-        self.assertNotEqual(self.our_model.to_dict()['created_at'],
-                            self.our_model.to_dict()['updated_at'])
+        """test save."""
+        base = BaseModel()
+        time.sleep(1)
+        base.save()
+        self.assertNotEqual(base.updated_at, base.created_at)
+        self.assertTrue(base.updated_at > base.created_at)
 
-    def test_id(self):
-        """  id should remain the same at any time  """
-        self.our_model.save()
-        our_model_json = self.our_model.to_dict()
-        self.assertEqual(our_model_json['id'], self.our_model.__dict__['id'])
+    def test_save_file(self):
+        """test save."""
+        if os.path.isfile("file.json"):
+            os.remove(os.path.join("file.json"))
+            print(os.path.isfile("file.json"))
+        base = BaseModel()
+        print(base.id)
+        time.sleep(1)
+        base.save()
+        self.assertTrue(os.path.isfile("file.json"))
+        with open("file.json", 'w') as file:
+            serialized_content = json.load(file)
+            for item in serialized_content.values():
+                self.assertIsNotNone(item['__class__'])
 
     def test_str_(self):
-        """ test for string print function """
-        temporary_model = str(self.our_model)
-        self.assertEqual(temporary_model.split(" ")[0], "[BaseModel]")
-        self.assertEqual(temporary_model.split(" ")[1],
-                         "({})".format(self.our_model.id))
-        self.assertEqual(eval(temporary_model.split(" ")[2]),
-                         self.our_model.__dict__)
+        """test str."""
+        base = BaseModel()
 
-    # def test_str_(self):
-    #     """ test for string print function """
-    #     temporary_model = str(self.our_model)
-    #     self.assertEqual(temporary_model.split(" ")[0], "[BaseModel]")
-    #     self.assertEqual(temporary_model.split(" ")[1],
-    #                      "({})".format(self.our_model.id))
-    #     self.assertEqual(eval(temporary_model.split(" ")[2]), self.our_model.__dict__)
+        with patch("sys.stdout", new=StringIO()) as fake_out:
+            print(base)
+            self.assertEqual(fake_out.getvalue(),
+                             "[{}] ({}) {}\n".format(base.__class__.__name__,
+                                                     base.id,
+                                                     base.__dict__))
 
-    def test_sizeofDict(self):
-        """ is the dict the same length?  """
-        self.assertEqual(len(self.our_model.to_dict()), len(self.our_model.__dict__) + 1)
+    def test_to_dict(self):
+        """test dict."""
+        base = BaseModel()
+        dict_repr = base.to_dict()
+        self.assertTrue(dict_repr['__class__'] == base.__class__.__name__)
+
+
+if __name__ == "__main__":
+    unittest.main()
