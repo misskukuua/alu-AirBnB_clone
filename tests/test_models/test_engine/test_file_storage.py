@@ -89,7 +89,7 @@ class TestFStorage(unittest.TestCase):
         var1 = self.my_model.to_dict()
         new_key = var1['__class__'] + "." + var1['id']
         storage.save()
-        with open("file.json", 'r') as fd:
+        with open("file.json", 'r+') as fd:
             var2 = json.load(fd)
         new = var2[new_key]
         for key in new:
