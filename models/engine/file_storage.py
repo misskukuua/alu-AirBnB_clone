@@ -1,53 +1,41 @@
 #!/usr/bin/python3
-"""
-store by serialization and deserialization 
-"""
-
+"""For the filestorage"""
+import os.path
 import json
 
 
 class FileStorage:
-    """ A class that serializes instances to Json file
-    and deserializes Json file back to instances"""
-
-    __file_path = 'file.json'
+    __file_path = "file.json"
     __objects = {}
 
     def all(self):
-        """returns dict _objects"""
-        return self.__objects
+        return FileStorage.__objects
 
     def new(self, obj):
-        """
-        sets in objects the obj with key 
-        """
-        key = '{}.{}'.format(obj.__class__.__name__, obj.id)
-        self.__objects[key] = obj
+        key = obj.__class__.__name__ + "." + obj.id
+        FileStorage.__objects[key] = obj
 
     def save(self):
-        """serializes objects to a Json file"""
-        object_dict = {}
-        for obj in self.__objects:
-            object_dict[obj] = self.__objects[obj].to_dict()
-        with open(self.__file_path, 'w') as file:
-            json.dump(object_dict, file)
+        dictionary = {}
+
+        for key, value in FileStorage.__objects.items():
+            dictionary[key] = value.to_dict()
+        with open(FileStorage.__file_path, 'w', encoding='utf-8') as f:
+            json.dump(dictionary, f)
 
     def reload(self):
-        """deserializes the Json file  back to objects"""
-
-        from models.base_model import BaseModel
         from models.user import User
-        from models.state import State
+        from models.review import Review
+        from models.amenity import Amenity
+        from models.base_model import BaseModel
         from models.city import City
         from models.place import Place
-        from models.amenity import Amenity
-        from models.review import Review
+        from models.state import State
+        lst = {'BaseModel': BaseModel, 'User': User,
+               'Place': Place, 'City': City, 'Amenity': Amenity,
+               'State': State, 'Review': Review}
 
-        try:
-            with open(self.__file_path) as file:
-                serialized_content = json.load(file)
-                for item in serialized_content.values():
-                    class_name = item['__class__']
-                    self.new(eval(class_name + "(**" + str(item) + ")"))
-        except FileNotFoundError:
-            pass
+        if os.path.exists(FileStorage.__file_path) is True:
+            with open(FileStorage.__file_path, 'r') as f:
+                for key, value in json.load(f).items():
+                    self.new(lst[value['__class__']](**value))
