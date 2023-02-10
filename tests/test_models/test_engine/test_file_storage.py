@@ -7,6 +7,7 @@ from models.engine.file_storage import FileStorage
 import os
 import json
 
+
 class TestFStorage(unittest.TestCase):
     """ checking this test """
 
@@ -94,6 +95,7 @@ class TestFStorage(unittest.TestCase):
         new = var2[new_key]
         for key in new:
             self.assertEqual(var1[key], new[key])
+
 
 if __name__ == '__main__':
     unittest.main()
