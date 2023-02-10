@@ -40,18 +40,28 @@ class HBNBCommand(cmd.Cmd):
         """ an empty line + enter should do nothing """
         return False
 
-    def do_create(self, line):
-        """ creates a BaseModel instance into JSON file-creates a new class and prints its id """
-        if not line:
+    def do_create(self, args):
+        """
+            Creates a new instance of a class,
+            saves it (to the JSON file) and prints the id.
+            Usage: create <class_name>
+       """
+        
+        if len(args) < 1:
             print("** class name missing **")
-        else:
-            if line not in self.__classes:
-                print("** class doesn't exist **")
-            else:
-                line = eval(line + "()")
-                line.save()
-                print(line.__dict__['id'])
-                models.storage.save()
+            return
+       
+        args = args.split()
+
+        class_name = args[0]
+        if class_name not in self.__classes:
+            print("** class doesn't exist **")
+            return
+        
+        new_object = eval(class_name + "()")
+        new_object.save()
+        print(new_object.id)
+        storage.save()
         
 
     def do_show(self, line):
@@ -82,27 +92,31 @@ class HBNBCommand(cmd.Cmd):
         else:
             print(objdict["{}.{}".format(show[0], show[1])])
 
-    def do_destroy(self, line):
-        """
-       Deletes an instance based on the class name and id
-       Save changes into a JSON file
-       """
-        destroy = line.split()
-        des_objdict = models.storage.all()
-        if len(destroy) == 0:
+    def do_destroy(self, args):
+        """Usage: to destroy <class> <id> or <class>.destroy(<id>)
+        Delete class instance of given id."""
+
+        arg_list = args.split()
+        all_objects = storage.all()
+        if len(arg_list) == 0:
             print("** class name missing **")
             return
-
-        elif len(destroy) == 1:
+        class_name = arg_list[0]
+        if class_name not in self.__classes:
+            print("** class doesn't exist **")
+            return
+        if len(arg_list) == 1:
             print("** instance id missing **")
             return
+        instance_id = arg_list[1]
+
+        object_key = "{}.{}".format(class_name, instance_id)
+
+        if object_key not in all_objects.keys():
+            print("** no instance found **")
         else:
-            key = "{}.{}".format(destroy[0], destroy[1])
-            if key not in des_objdict.keys():
-                print("** no instance found **")
-            else:
-                del des_objdict[key]
-                models.storage.save()
+            del all_objects[object_key]
+            storage.save()
 
     def do_all(self, line):
         """
