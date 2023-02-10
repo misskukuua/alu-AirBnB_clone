@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-store by serialization and deserialization 
-"""
+"""store by serialization and deserialization"""
 
 import json
 from models.base_model import BaseModel
@@ -15,7 +13,8 @@ from models.review import Review
 
 class FileStorage:
     """ A class that serializes instances to Json file
-    and deserializes Json file back to instances"""
+        and deserializes Json file back to instances
+    """
 
     __file_path = 'file.json'
     __objects = {}
@@ -32,7 +31,7 @@ class FileStorage:
     #     self.__objects[key] = obj
     def new(self, obj):
         """
-        sets in  __objects the obj with key(<obj class name>.id)
+            sets in  __objects the obj with key(<obj class name>.id)
         """
         key = obj.__class__.__name__, + ".", obj.id
         self.__objects[key] = obj
