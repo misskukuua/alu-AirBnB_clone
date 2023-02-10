@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-store by serialization and deserialization 
-"""
+"""store by serialization and deserialization"""
 import os.path
 import json
 
@@ -18,9 +16,7 @@ class FileStorage:
         return FileStorage.__objects
 
     def new(self, obj):
-        """
-        sets in objects the obj with key 
-        """
+        """sets in objects the obj with key"""
         key = obj.__class__.__name__ + "." + obj.id
         FileStorage.__objects[key] = obj
 
