@@ -40,19 +40,25 @@ class HBNBCommand(cmd.Cmd):
         """ an empty line + enter should do nothing """
         return False
 
-    def do_create(self, line):
-        """ creates a BaseModel instance into JSON file-creates a
-         new class and prints its id
-        """
-        if not line:
+    def do_create(self, inp):
+        inp = shlex.split(inp)
+        if inp == [0]:
             print("** class name missing **")
+        elif inp[0] not in ["BaseModel", "User", "Place", "State",
+                            "City", "Amenity", "Review"]:
+            print("** class doesn't exist **")
         else:
-            if line not in self.__classes:
-                print("** class doesn't exist **")
-            else:
-                line = eval(line + "()")
-                line.save()
-                print(line.__dict__['id'])
+            classes = {"Amenity": Amenity,
+                       "BaseModel": BaseModel,
+                       "City": City,
+                       "Place": Place,
+                       "Review": Review,
+                       "State": State,
+                       "User": User}
+            models.storage.reload()
+            new = classes[inp[0]]()
+            new.save()
+            print(new.id)
 
     def do_show(self, line):
         """Prints the string representation of an instance
