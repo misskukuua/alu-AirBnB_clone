@@ -40,29 +40,18 @@ class HBNBCommand(cmd.Cmd):
         """ an empty line + enter should do nothing """
         return False
 
-    def do_create(self, args):
-        """
-            Creates a new instance of a class,
-            saves it (to the JSON file) and prints the id.
-            Usage: create <class_name>
-       """
-       
-        if len(args) < 1:
+    def do_create(self, line):
+       """ creates a BaseModel instance into JSON file-creates a new class and prints its id """
+       if not line:
             print("** class name missing **")
-            return
-        
-        args = args.split()
-
-      
-        class_name = args[0]
-        if class_name not in self.__classes:
-            print("** class doesn't exist **")
-            return
-       
-        new_object = eval(class_name + "()")
-        new_object.save()
-        print(new_object.id)
-        storage.save()
+       else:
+            if line not in self.__classes:
+                print("** class doesn't exist **")
+            else:
+                line = eval(line + "()")
+                line.save()
+                print(line.__dict__['id'])
+                storage.save()
 
     def do_show(self, line):
         """Prints the string representation of an instance
