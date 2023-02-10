@@ -129,7 +129,7 @@ class HBNBCommand(cmd.Cmd):
             print(list(object_list))
             return
 
-        if len(arg_list) > 0 and arg_list[0] not in self.__all_classes:
+        if len(arg_list) > 0 and arg_list[0] not in self.__classes:
             print("** class doesn't exist **")
             return
         class_name = arg_list[0]
