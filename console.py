@@ -184,63 +184,34 @@ class HBNBCommand(cmd.Cmd):
                 count += 1
         print(count)
 
-    def do_update(self, args):
-        """Usage: to update <class> <id> <attribute_name> <attribute_value> or
-        Update class instance of given id by adding or updating
-       given attribute key/value pair or dictionary."""
+    def do_update(self, arg):
+        """Updates an instance based on the class name and id
+        """
+        obj_dict = models.storage.all()
 
-        arg_list = args.split()
-        all_objects = storage.all()
-
-        if len(arg_list) == 0:
+        if len(arg) == 0:
             print("** class name missing **")
-            return False
-        class_name = arg_list[0]
-
-        if class_name not in self.__all_classes:
-            print("** class doesn't exist **")
-            return False
-
-        if len(arg_list) == 1:
-            print("** instance id missing **")
-            return False
-
-        instance_id = arg_list[1]
-        object_key = "{}.{}".format(class_name, instance_id)
-
-        if object_key not in all_objects:
-            print("** no instance found **")
-            return False
-
-        if len(arg_list) == 2:
-            print("** attribute name missing **")
-            return False
-        attribute_name = arg_list[2]
-
-        if len(arg_list) == 3:
-            print("** value missing **")
-            return False
-        attribute_value = arg_list[3]
-
-        if attribute_value.isdigit():
-            if isinstance(attribute_value, float):
-                attribute_value = float(attribute_value)
-            elif isinstance(attribute_value, int):
-                attribute_value = int(attribute_value)
-
-        obj = all_objects[object_key]
-
-        if attribute_name in obj.to_dict():
-            attribute_original_type = type(obj[attribute_name])
-            attribute_value = attribute_original_type(attribute_value)
-
-            if attribute_original_type in {str, int, float}:
-                attribute_value = attribute_original_type(attribute_value)
-                obj[attribute_name] = attribute_value
         else:
-            obj.__dict__.update({attribute_name: attribute_value})
+            tokens = arg.split()
 
-        storage.save()
+            if tokens[0] not in HBNBCommand.__all_classes:
+                print("** class doesn't exist **")
+            elif len(tokens) == 1:
+                print("** instance id missing **")
+            elif (tokens[0] + '.' + tokens[1]) not in obj_dict:
+                print("** no instance found **")
+            elif len(tokens) == 2:
+                print("** attribute name missing **")
+            elif len(tokens) == 3:
+                print("** value missing **")
+            else:
+                obj = obj_dict[tokens[0] + '.' + tokens[1]]
+                if tokens[2] in obj.__class__.__dict__.keys():
+                    v_type = type(obj.__class__.__dict__[tokens[2]])
+                    obj.__dict__[tokens[2]] = (v_type(tokens[3]))
+                else:
+                    obj.__dict__[tokens[2]] = tokens[3]
+                models.storage.save()
 
 
 if __name__ == "__main__":
