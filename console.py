@@ -2,6 +2,7 @@
 """Defines AirBnb console."""
 import cmd
 import re
+import models
 from shlex import split
 from models import storage
 from models.base_model import BaseModel
@@ -39,15 +40,14 @@ class HBNBCommand(cmd.Cmd):
     """
 
     prompt = "(hbnb) "
-    __all_classes = {
-        "BaseModel",
-        "User",
-        "State",
-        "City",
-        "Place",
-        "Amenity",
-        "Review"
-    }
+    __all_classes = {"BaseModel": BaseModel,
+                     "User": User,
+                     "State": State,
+                     "City": City,
+                     "Place": Place,
+                     "Amenity": Amenity,
+                     "Review": Review
+                     }
 
     def emptyline(self):
         """
@@ -86,30 +86,17 @@ class HBNBCommand(cmd.Cmd):
         print("")
         return True
 
-    def do_create(self, args):
-        """
-            Creates a new instance of a class,
-            saves it (to the JSON file) and prints the id.
-            Usage: create <class_name>
-       """
-        # If the class name is missing,
-        # print ** class name missing ** (ex: $ create)
-        if len(args) < 1:
+    def do_create(self, arg):
+        """Crates a new instance, saves it (to JSON file) and prints the `id`.
+                Usage: create <class>
+                """
+        if len(arg) == 0:
             print("** class name missing **")
-            return
-
-        args = args.split()
-
-        class_name = args[0]
-        if class_name not in self.__all_classes:
+        elif arg not in HBNBCommand.__all_classes:
             print("** class doesn't exist **")
-            return
-        # print(self.__all_classes)
-        # eval() interprets a string as a piece of python code
-        new_object = eval(class_name + "()")
-        new_object.save()
-        print(new_object.id)
-        storage.save()
+        else:
+            print(eval(arg)().id)
+            models.storage.save()
 
     def do_show(self, args):
         """Usage: to show <class> <id> or <class>.show(<id>)
