@@ -38,7 +38,7 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         """ an empty line + enter should do nothing """
-        pass
+        return False
 
     def do_create(self, line):
         """ creates a BaseModel instance into JSON file-creates a
@@ -68,16 +68,16 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
+        elif len(show) == 1:
+            """If the id is missing, print ** instance id missing **"""
+            print("** instance id missing **")
+            return
+
         elif show[0] not in HBNBCommand.__classes:
             """If the class name doesn’t exist,
              print ** class doesn't exist **
             """
             print("** class doesn't exist **")
-            return
-
-        elif len(show) == 1:
-            """If the id is missing, print ** instance id missing **"""
-            print("** instance id missing **")
             return
 
         elif "{}.{}".format(show[0], show[1]) not in objdict:
