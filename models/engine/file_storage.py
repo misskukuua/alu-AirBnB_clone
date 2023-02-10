@@ -6,7 +6,6 @@ store by serialization and deserialization
 import json
 
 
-
 class FileStorage:
     """ A class that serializes instances to Json file
     and deserializes Json file back to instances"""
